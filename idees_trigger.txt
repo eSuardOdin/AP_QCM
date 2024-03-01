@@ -1,0 +1,2 @@
+- Trigger pour renvoyer le rôle d'un utilisateur (élève ou professeur)
+- Trigger pour checker que l'utilisateur n'a pas déjà un rôle
