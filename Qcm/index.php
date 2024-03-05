@@ -17,11 +17,11 @@ session_start();
 // $_SESSION["basepath"] = "http://qcm.suard/";
 $_SESSION["basepath"] = "http://localhost:5000/";
 if(!isset($_SESSION["user"])){
-    include_once("login.php");
+    include_once("Views/login.php");
 } 
 else {
     
-    include_once("menu.php");
+    include_once("Views/menu.php");
     
 }
 
