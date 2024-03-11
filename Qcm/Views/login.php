@@ -1,4 +1,4 @@
-<form method="post" action="connect.php">
+<form method="post" action="Logic/connect.php">
     <label for="login">Login : </label>
     <input type="text" id="login" name="login">
     <label for="mdp">Mot de passe : </label>

@@ -71,5 +71,35 @@ class Database
         }
     }
 
+    /**
+     * Get le rôle d'un utilisateur.
+     * Penser à la possibilité ou non de cumuler les rôles
+     */
+    public function get_role_utilisateur(int $id)
+    {
+        session_start();
+        $statementElève = $this->db->prepare("SELECT * FROM Elève WHERE IdElève = :id;");
+        $statementElève->bindParam(":id", $id, \PDO::PARAM_INT);
 
+        $statementProf = $this->db->prepare("SELECT * FROM Enseignant WHERE IdEnseignant = :id;");
+        $statementProf->bindParam(":id", $id, \PDO::PARAM_INT);
+        try {
+            $statementElève->execute();
+            $res = $statementElève->fetch(\PDO::FETCH_ASSOC);
+            if ($res != null) {
+                return "Elève";
+            }
+
+            $statementProf->execute();
+            $res = $statementProf->fetch(\PDO::FETCH_ASSOC);
+            if ($res != null) {
+                return "Enseignant";
+            }
+        }
+        catch(\PDOException $e) {
+            $_SESSION["erreur_sql"] = $e->getMessage();
+        }
+
+        return "Rôle inconnu";
+    }
 }
