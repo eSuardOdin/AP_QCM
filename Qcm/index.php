@@ -16,11 +16,13 @@ if(isset($_SESSION["erreur_sql"])) {
 session_start();
 // $_SESSION["basepath"] = "http://qcm.suard/";
 $_SESSION["basepath"] = "http://localhost:5000/";
+
+// Si l'utilisateur existe et est bien enseignant ou élève
 if(!isset($_SESSION["user"]) || $_SESSION["user"]["role"] == "Rôle inconnu"){
     include_once("Views/login.php");
 } 
 else {
-    include_once("Views/menu.php");
+    include_once('Views/menu.php');
 }
 
 

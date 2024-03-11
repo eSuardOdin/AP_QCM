@@ -1,0 +1,6 @@
+Navigation :
+On va effectuer la navigation grâce à une super globale (pour ne pas que l'utilisateur
+puisse modifier directement l'url). Bien sûr il faut une vérification du rôle pour chaque
+redirection.
+
+$_SESSION['path'] -> Traité dans l'index pour rediriger vers une page appropriée
