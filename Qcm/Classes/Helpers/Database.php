@@ -55,6 +55,12 @@ class Database
         return (int)$this->db->lastInsertId();
     }
 
+    /**
+     * Permet la connexion d'un utilisateur et renvoie l'array
+     * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     * !!!!!! (renvoyer un objet ?) !!!!!!
+     * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     */
     public function connexion_utilisateur(string $login, string  $mdp)
     {
         session_start();
@@ -101,5 +107,18 @@ class Database
         }
 
         return "Rôle inconnu";
+    }
+
+
+    /**
+     * Check si un login existe déjà
+     */
+    public function is_login_free(string $login): bool
+    {
+        $statement = $this->db->prepare("SELECT * FROM Utilisateur WHERE login = :login;");
+        $statement->bindParam(":login", $login, \PDO::PARAM_STR);
+        $statement->execute();
+        $res = $statement->fetch();
+        return $res == null;
     }
 }
