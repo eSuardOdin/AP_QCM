@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['user']['role'] == "Enseignant")
+if ($_SESSION['user']['role'] == "Enseignant" && $_SESSION['page'] != "enseignant/ajout_compte.php")
 {
     include_once("Views/enseignant/navbar.php");
 }
@@ -10,10 +10,6 @@ else if ($_SESSION["user"]["role"] == "Elève")
 }
 
 ?>
-<!-- Form logout -->
-<form method="post" action="Logic/disconnect.php">
-<input type="submit" value="Déconnexion"/>
-</form>
 
 <?php
 // Page en cours
