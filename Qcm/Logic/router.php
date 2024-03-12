@@ -16,8 +16,14 @@ switch($_REQUEST["page"]){
     case "Gestion des comptes":
         $_SESSION["page"] = "enseignant/gestion_comptes.php";
         break;
+    case "Ajouter un compte":
+        $_SESSION["page"] = "enseignant/ajout_compte.php";
+        break;
     case "Gestion des groupes":
         $_SESSION["page"] = "enseignant/gestion_groupes.php";
+        break;
+    case "Déconnexion":
+        $_SESSION["page"] = "Logic/disconnect.php";
         break;
     default:
 
