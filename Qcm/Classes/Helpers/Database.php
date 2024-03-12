@@ -55,6 +55,11 @@ class Database
         return (int)$this->db->lastInsertId();
     }
 
+
+    // à insérer directement dans add_utilisateur en rajoutant un paramètre ?
+    public function add_enseignant(int $id) {}
+
+    public function add_élève(int $id) {}
     /**
      * Permet la connexion d'un utilisateur et renvoie l'array
      * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
