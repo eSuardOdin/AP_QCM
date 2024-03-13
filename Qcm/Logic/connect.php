@@ -7,7 +7,8 @@ require_once("../Classes/Helpers/Database.php");
 session_start();
 
 // Connexion à la db
-$db =  new Database("localhost", "root", "E12alt%F4", "qcm_V2" );
+// $db =  new Database("localhost", "root", "E12alt%F4", "qcm_V2" );
+$db =  new Database("localhost", "root", "E12alt%F4", "qcm_V3" );
 $user = $db->connexion_utilisateur($_POST['login'], $_POST['mdp']);
 
 // Si problème de db

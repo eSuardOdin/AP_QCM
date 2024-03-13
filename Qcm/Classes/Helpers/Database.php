@@ -43,7 +43,7 @@ class Database
     ): int
     {
         session_start();
-        $statement = $this->db->prepare("INSERT INTO Utilisateur(Nom, Prénom, Login, MotDePasse) VALUES (? , ? , ? , ?);");
+        $statement = $this->db->prepare("INSERT INTO Utilisateurs(Nom, Prénom, Login, MotDePasse) VALUES (? , ? , ? , ?);");
         try {
             $statement->execute([$nom, $prénom, $login, $mdp]); // Pareil que bind param mais avec "?"
         } catch (\PDOException $e) {
@@ -61,7 +61,7 @@ class Database
     public function add_enseignant(int $id)
     {
         session_start();
-        $statement = $this->db->prepare('INSERT INTO Enseignant(IdEnseignant) VALUES (:id);');
+        $statement = $this->db->prepare('INSERT INTO Enseignants(IdEnseignant) VALUES (:id);');
         $statement->bindParam(':id', $id, \PDO::PARAM_INT);
         try
         {
@@ -78,7 +78,7 @@ class Database
     public function add_élève(int $id)
     {
         session_start();
-        $statement = $this->db->prepare('INSERT INTO Elève(IdElève) VALUES (:id);');
+        $statement = $this->db->prepare('INSERT INTO Elèves(IdElève) VALUES (:id);');
         $statement->bindParam(':id', $id, \PDO::PARAM_INT);
         try
         {
@@ -98,7 +98,7 @@ class Database
     public function connexion_utilisateur(string $login, string  $mdp)
     {
         session_start();
-        $statement = $this->db->prepare("SELECT * FROM Utilisateur WHERE Login = :login AND MotDePasse = :mdp;");
+        $statement = $this->db->prepare("SELECT * FROM Utilisateurs WHERE Login = :login AND MotDePasse = :mdp;");
         $statement->bindParam(':mdp', $mdp, \PDO::PARAM_STR);
         $statement->bindParam(':login', $login, \PDO::PARAM_STR);
         try {
@@ -118,10 +118,10 @@ class Database
     public function get_role_utilisateur(int $id)
     {
         session_start();
-        $statementElève = $this->db->prepare("SELECT * FROM Elève WHERE IdElève = :id;");
+        $statementElève = $this->db->prepare("SELECT * FROM Elèves WHERE IdElève = :id;");
         $statementElève->bindParam(":id", $id, \PDO::PARAM_INT);
 
-        $statementProf = $this->db->prepare("SELECT * FROM Enseignant WHERE IdEnseignant = :id;");
+        $statementProf = $this->db->prepare("SELECT * FROM Enseignants WHERE IdEnseignant = :id;");
         $statementProf->bindParam(":id", $id, \PDO::PARAM_INT);
         try {
             $statementElève->execute();
@@ -142,17 +142,28 @@ class Database
 
         return "Rôle inconnu";
     }
-
-
     /**
      * Check si un login existe déjà
      */
     public function is_login_free(string $login): bool
     {
-        $statement = $this->db->prepare("SELECT * FROM Utilisateur WHERE login = :login;");
+        $statement = $this->db->prepare("SELECT * FROM Utilisateurs WHERE login = :login;");
         $statement->bindParam(":login", $login, \PDO::PARAM_STR);
         $statement->execute();
         $res = $statement->fetch();
         return $res == null;
+    }
+
+
+
+
+    /**
+     * Get les QCM
+     */
+    public function get_all_qcm()
+    {
+        $statement = $this->db->prepare("SELECT * FROM QCM");
+        $statement->execute();
+        return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 }
