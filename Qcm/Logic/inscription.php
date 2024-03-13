@@ -39,7 +39,28 @@ if(!preg_match("/^[a-zA-Z-\s]*$/", $_POST['prénom']))
 //header('Location: http://qcm.suard/');
 if($isErrorFree)
 {
+    // Insertion utilisateur
+    $id = $db->add_utilisateur(
+        $_POST["nom"],
+        $_POST["prénom"],
+        $_POST["login"],
+        "1234"
+    );
     $_SESSION['added_user'] = $_POST['login'];
+
+    // Si ok, insertion dans la table rôle correspondante
+    if ($id != -1)
+    {
+        $_SESSION['added_user'] .= ' (' . $_POST['role'] . ')';
+        if($_POST['role'] == 'élève')
+        {
+            $db->add_élève($id);
+        }
+        else if($_POST['role'] == 'enseignant')
+        {
+            $db->add_élève($id);
+        }
+    }
 }
 header('Location: ' . $_SESSION['basepath']);
 exit;

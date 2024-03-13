@@ -55,11 +55,40 @@ class Database
         return (int)$this->db->lastInsertId();
     }
 
-
-    // à insérer directement dans add_utilisateur en rajoutant un paramètre ?
-    public function add_enseignant(int $id) {}
-
-    public function add_élève(int $id) {}
+    /**
+     * Permet d'ajouter un enseignant à la db
+     */
+    public function add_enseignant(int $id)
+    {
+        session_start();
+        $statement = $this->db->prepare('INSERT INTO Enseignant(IdEnseignant) VALUES (:id);');
+        $statement->bindParam(':id', $id, \PDO::PARAM_INT);
+        try
+        {
+            $statement->execute();
+        }
+        catch (\PDOException $e)
+        {
+            $_SESSION['erreur_sql']  = $statement->errorInfo()[2];
+        }
+    }
+    /**
+     * Permet d'ajouter un élève à la db
+     */
+    public function add_élève(int $id)
+    {
+        session_start();
+        $statement = $this->db->prepare('INSERT INTO Elève(IdElève) VALUES (:id);');
+        $statement->bindParam(':id', $id, \PDO::PARAM_INT);
+        try
+        {
+            $statement->execute();
+        }
+        catch (\PDOException $e)
+        {
+            $_SESSION['erreur_sql']  = $statement->errorInfo()[2];
+        }
+    }
     /**
      * Permet la connexion d'un utilisateur et renvoie l'array
      * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
