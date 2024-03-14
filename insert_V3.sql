@@ -17,6 +17,11 @@ INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssoc
 INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('TCP', false, 1);
 
 INSERT INTO Questions(LibelléQuestion, IdQCMAssocié) VALUES ('Quel protocole est utilisé par la commande ping ?', 1);
-INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('ICMP', true, 2);
-INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('FTP', false, 2);
-INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('HTTP', false, 2);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('ICMP', true, 1);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('FTP', false, 1);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('HTTP', false, 1);
+
+INSERT INTO Questions(LibelléQuestion, IdQCMAssocié) VALUES ('Quel protocole est utilisé pour le transfert de fichier ?', 1);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('ICMP', false, 1);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('FTP', true, 1);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('HTTP', false, 1);
