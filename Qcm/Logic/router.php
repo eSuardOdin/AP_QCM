@@ -12,9 +12,19 @@ if (isset($_REQUEST["page"]))
         case "Résultats":
             $_SESSION["page"] = "enseignant/résultats.php";
             break;
+        
+        // QCM
         case "Gestion des QCM":
-            $_SESSION["page"] = "enseignant/gestion_qcm.php";
+            $_SESSION["page"] = "enseignant/qcm/gestion_qcm.php";
             break;
+        case "Afficher QCM":
+            $_SESSION["page"] = "enseignant/qcm/afficher_qcm.php";
+            break;
+        case "Supprimer QCM":
+            $_SESSION["page"] = "enseignant/qcm/supprimer_qcm.php";
+            break;
+
+        // Comptes
         case "Gestion des comptes":
             $_SESSION["page"] = "enseignant/gestion_comptes.php";
             break;
