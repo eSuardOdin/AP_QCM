@@ -22,6 +22,14 @@ INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssoc
 INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('HTTP', false, 1);
 
 INSERT INTO Questions(LibelléQuestion, IdQCMAssocié) VALUES ('Quel protocole est utilisé pour le transfert de fichier ?', 1);
-INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('ICMP', false, 1);
-INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('FTP', true, 1);
-INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('HTTP', false, 1);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('ICMP', false, 3);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('FTP', true, 3);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('HTTP', false, 3);
+
+INSERT INTO Questions(LibelléQuestion, IdQCMAssocié) VALUES ('Que veut dire TCP ?', 1);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('True Control Packets', false, 4);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('Transmission Control Protocol', false, 4);
+
+
+-- Deuxième QCM
+INSERT INTO QCM(LibelléQCM, IdAuteur, IdThème) VALUES('Systèmes (général) - 1', 2, 2);
