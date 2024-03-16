@@ -14,10 +14,10 @@ else {
     include_once('accueil.php');
 }
 
-echo'<br/><br/>';
-echo'<pre>';
-echo var_dump($_SESSION);
-echo'</pre>';
+// echo'<br/><br/>';
+// echo'<pre>';
+// echo var_dump($_SESSION);
+// echo'</pre>';
 
 $_SESSION['page'] = null;
 

@@ -3,7 +3,7 @@ echo '<pre>';
 echo var_dump($_POST);
 echo '</pre>';
 session_start();
-$_SESSION['page'] = null;
+// $_SESSION['page'] = null;
 if (isset($_REQUEST["page"]))
 {
     switch($_REQUEST["page"]){
@@ -23,6 +23,11 @@ if (isset($_REQUEST["page"]))
             break;
         case "Afficher QCM":
             $_SESSION["page"] = "enseignant/gestion_qcm/afficher_qcm.php";
+            // Get l'id du qcm dans la session
+            if (isset($_REQUEST["qcm"]) && $_REQUEST["qcm"] != null)
+            {
+                $_SESSION["qcm"] = $_REQUEST["qcm"];
+            }
             break;
         case "Supprimer QCM":
             $_SESSION["page"] = "enseignant/gestion_qcm/supprimer_qcm.php";

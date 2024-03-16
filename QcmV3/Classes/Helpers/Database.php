@@ -3,7 +3,7 @@ declare(strict_types= 1);
 namespace Qcm\Helpers;
 
 use Qcm\Classes\Qcm;
-include_once("Classes/Qcm");
+include_once("Classes/Qcm.php");
 use Qcm\Classes\Utilisateur;
 class Database
 {
