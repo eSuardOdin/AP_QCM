@@ -8,6 +8,7 @@
 
 <?php
 session_start();
+use Qcm\Helpers\Database;
 include_once("Classes/Helpers/Database.php");
 
 if(isset($_SESSION["erreur_sql"]))
@@ -15,20 +16,13 @@ if(isset($_SESSION["erreur_sql"]))
     echo $_SESSION["erreur_sql"];
     $_SESSION["erreur_sql"] = null;
 }
-echo "<pre>";
-    echo var_dump($_REQUEST);
-    // echo var_dump($db);
-    echo "</pre>";
+
+
 if(isset($_POST["login"]))
 {
-    echo "ici";
-    $db =  new Qcm\Helpers\Database("localhost", "root", "E12alt%F4", "qcm_V3" );
+    $db = new Database("localhost", "root", "E12alt%F4", "qcm_V3" );
     $user = $db->connexion_utilisateur($_POST['login'], $_POST['mdp']);
 
-    echo "<pre>";
-    echo var_dump($user);
-    // echo var_dump($db);
-    echo "</pre>";
     // Si problème de db
     if($user == null && !isset($_SESSION["erreur_sql"]))
     {

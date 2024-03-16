@@ -3,7 +3,7 @@ session_start();
 include_once("navbar.php");
 if(!isset($_SESSION['page']))
 {
-    echo "<h1>Bienvenue sur l'aererercation QCM</h1>";
+    echo "<h1>Bienvenue sur l'application QCM</h1>";
 }
 else
 {
