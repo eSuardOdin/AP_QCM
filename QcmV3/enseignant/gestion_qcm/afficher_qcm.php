@@ -6,8 +6,10 @@ use Qcm\Models\QcmModel;
 include_once("Models/QcmModel.php");
 
 // Get les qcm
-$db = new Database("localhost", "root", "E12alt%F4", "qcm_V3" );
-$qcms = $db->get_all_qcm();
+$qcm_model = new QcmModel();
+$qcms = $qcm_model->get_all_qcm();
+// $db = new Database("localhost", "root", "E12alt%F4", "qcm_V3" );
+// $qcms = $db->get_all_qcm();
 
 // Selection du qcm
 echo '
@@ -17,15 +19,15 @@ echo '
 ';
 foreach($qcms as $qcm)
 {
-    echo '<option value="'.$qcm['IdQCM'].'">'.$qcm['LibelléQCM'].'</option>';
+    echo '<option value="'.$qcm->get_id_qcm().'">'.$qcm->get_libellé_qcm().'</option>';
 }
 echo '</select><input type="submit" value="Afficher"></form>';
 
 if(isset($_SESSION['qcm']))
 {
-    $test = new QcmModel();
+    $qcm_model = new QcmModel();
     echo '<pre>';
-    echo var_dump( $test->get_qcm((int)$_SESSION['qcm']) );
-    echo var_dump( $test->get_all_qcm() );
+    echo var_dump( $qcm_model->get_qcm((int)$_SESSION['qcm']) );
+    echo var_dump( $qcm_model->get_all_qcm() );
     echo '</pre>';
 }
