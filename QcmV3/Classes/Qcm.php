@@ -6,6 +6,8 @@ use \Qcm\Helpers\Database;
 require_once("Classes/Helpers/Database.php");
 use Qcm\Classes\Utilisateur;
 require_once("Classes/Utilisateur.php");
+use Qcm\Models\UtilisateurModel;
+require_once('Models/UtilisateurModel.php');
 class Qcm
 {
     // Attributs
@@ -40,6 +42,23 @@ class Qcm
     {
 
         return 0;
+    }
+
+
+    // Méthodes perso (affichage etc...)
+    /**
+     * Renvoie une array avec clés 'nom', 'prénom' et 'login'
+     * pour éviter d'instancier un utilisateur avec son mdp
+     */
+    public function get_auteur(): array
+    {
+        $user_model = new UtilisateurModel();
+        $user = $user_model->get_utilisateur($this->id_auteur);
+        return array(
+            "nom" => $user->get_nom(),
+            "prénom" => $user->get_prénom(),
+            "login" => $user->get_login()
+        );
     }
 
 }

@@ -33,3 +33,14 @@ INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssoc
 
 -- Deuxième QCM
 INSERT INTO QCM(LibelléQCM, IdAuteur, IdThème) VALUES('Systèmes (général) - 1', 2, 2);
+
+INSERT INTO Questions(LibelléQuestion, IdQCMAssocié) VALUES ('Un système d\'exploitation : ', 3);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('Gère l\'assignation des ressources matérielles aux programmes en cours d\'execution', true, 5);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('Fait l\'interface entre les applications et le materiel', true, 5);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('Se brosse les dents tout seul', false, 5);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('Fournit différents services', true, 5);
+
+
+INSERT INTO Questions(LibelléQuestion, IdQCMAssocié) VALUES ('Comment appelle t\'on un programme informatique qui s\'execute en arrière plan sans contrôle de l\'utilisateur (sous UNIX) ?', 3);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('Un hamster sur roue', false, 5);
+INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES ('Un daemon', true, 5);
