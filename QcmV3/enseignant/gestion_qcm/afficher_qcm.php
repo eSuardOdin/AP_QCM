@@ -1,7 +1,5 @@
 <?php
 session_start();
-use Qcm\Helpers\Database;
-include_once("Classes/Helpers/Database.php");
 use Qcm\Models\QcmModel;
 include_once("Models/QcmModel.php");
 use Qcm\Models\QuestionModel;
@@ -39,12 +37,25 @@ if(isset($_SESSION['qcm']))
     // On récupère le qcm et les question associées
     $qcm = $qcm_model->get_qcm((int)$_SESSION['qcm']);
     $questions = $question_model->get_qcm_questions($qcm->get_id_qcm());
-
-    // Affichage
+    $auteur = $qcm->get_auteur();
+    // Affichage du titre
+    $index_question = 1;
     echo '<h3>' . $qcm->get_libellé_qcm() . '</h3>';
-    echo '<pre>';
-    echo var_dump($qcm);
-    echo '<br/><br/>';
-    echo var_dump( $questions );
-    echo '</pre>';
+    echo '<p>Auteur: <u>' . $auteur['nom'] . ' ' . $auteur['prénom'] . ' (' . $auteur['login'] . ')</u></p>';
+    // Affichage des questions
+    foreach($questions as $question)
+    {
+        echo '<br/><p>- Question n°' . $index_question++ . ': ' . $question->get_libellé_question() . '</p>';
+        $propositions = $prop_model->get_question_propositions($question->get_id_question());
+        // Affichage des propositions
+        foreach($propositions as $proposition)
+        {
+            echo '<input type="checkbox" disabled id="' . $proposition->get_id_proposition() . '"';
+            if($proposition->get_résultat_vrai_faux())
+            {
+                echo ' checked';
+            }
+            echo '/><label for="' . $proposition->get_id_proposition() . '">' . $proposition->get_libellé_proposition() . '</label><br>';
+        }
+    }
 }

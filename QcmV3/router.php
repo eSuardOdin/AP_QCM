@@ -32,6 +32,13 @@ if (isset($_REQUEST["page"]))
         case "Supprimer QCM":
             $_SESSION["page"] = "enseignant/gestion_qcm/supprimer_qcm.php";
             break;
+        case "Supprimer QCM(s)":
+            if (isset($_REQUEST["del_qcm"]) && $_REQUEST["del_qcm"] != null)
+            {
+                $_SESSION["del_qcm"] = $_REQUEST["del_qcm"];
+                $_SESSION["page"] = "enseignant/gestion_qcm/confirmation_supprimer_qcm.php";
+            }
+            break;
 
         // Comptes
         case "Gestion des comptes":

@@ -26,7 +26,7 @@ class PropositionModel
         $arr = $statement->fetch(\PDO::FETCH_ASSOC);
         if ($arr != null)
         {
-            return new Proposition($arr['IdProposition'], $arr['LibelléProposition'], $arr['RésultatVraiFaux'], $arr['IdQuestionAssociée']);
+            return new Proposition($arr['IdProposition'], $arr['LibelléProposition'], ($arr['RésultatVraiFaux'] == 1), $arr['IdQuestionAssociée']);
         }
     }
 
@@ -35,17 +35,17 @@ class PropositionModel
      * Return les Propositions associées à une question
      * @return Proposition[]
      */
-    public function get_qcm_Propositions(int $qcm_id): array
+    public function get_question_propositions(int $question_id): array
     {
-        $statement = $this->db->prepare('SELECT * FROM Propositions WHERE IdQCMAssocié = :id;');
-        $statement->bindParam(":id", $qcm_id, \PDO::PARAM_INT);
+        $statement = $this->db->prepare('SELECT * FROM Propositions WHERE IdQuestionAssociée = :id;');
+        $statement->bindParam(":id", $question_id, \PDO::PARAM_INT);
         $statement->execute();
 
         $res = [];
 
         foreach($statement->fetchAll(\PDO::FETCH_ASSOC) as $arr)
         {
-            array_push($res, new Proposition($arr['IdProposition'], $arr['LibelléProposition'], $arr['RésultatVraiFaux'], $arr['IdQuestionAssociée']));
+            array_push($res, new Proposition($arr['IdProposition'], $arr['LibelléProposition'], ($arr['RésultatVraiFaux'] == 1), $arr['IdQuestionAssociée']));
         }
         return $res;
     }

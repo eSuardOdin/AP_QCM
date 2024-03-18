@@ -1,5 +1,6 @@
 INSERT INTO Utilisateurs(Nom, Prénom, Login, MotDePasse) VALUES ('Suard', 'Erwann', 'e.suard', '1234');
 INSERT INTO Utilisateurs(Nom, Prénom, Login, MotDePasse) VALUES ('Kister', 'Olivier', 'o.kister', '1234');
+INSERT INTO Utilisateurs(Nom, Prénom, Login, MotDePasse) VALUES ('Laassir', 'Smail', 's.laassir', '1234');
 INSERT INTO Enseignants(IdEnseignant) VALUES (2);
 INSERT INTO Elèves(IdElève) VALUES (1);
 

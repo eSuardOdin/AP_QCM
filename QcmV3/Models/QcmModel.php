@@ -44,5 +44,11 @@ class QcmModel
         return $res;
     }
 
-
+    public function delete_qcm(int $id)
+    {
+        $statement = $this->db->prepare('DELETE FROM QCM WHERE IdQCM = :id;');
+        $statement->bindParam(':id', $id, \PDO::PARAM_INT);
+        $statement->execute();
+        
+    }
 }
