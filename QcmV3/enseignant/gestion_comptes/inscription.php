@@ -8,11 +8,16 @@
 
 <?php
 session_start();
+
+
+// Avant l'envoi du formulaire
 if(!isset($_SESSION["added_user"]))
 {
     echo '
-    <form method="post" action="../../Logic/inscription.php">
-    
+    <form method="post" action=router.php>
+
+        <input type="hidden" name="page" value="Ajouter un compte"/>
+
         <label for="nom">Nom : </label> 
         <input required type="text" minlength="2" maxlength="64" name="nom"/>
         <?php echo $_SESSION["form_user_errors"]["nom"];?>
@@ -36,6 +41,14 @@ if(!isset($_SESSION["added_user"]))
     
     </form>
     ';
+}
+
+// Si le formulaire a été envoyé
+if (isset($_SESSION['post']))
+{
+    echo '<pre>';
+    echo var_dump($_SESSION['post']);
+    echo '</pre>';
 }
 else
 {

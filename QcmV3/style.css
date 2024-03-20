@@ -12,6 +12,10 @@
 
 
 table, th, td {
+    text-align: center;
     border: 1px solid black;
     border-collapse: collapse;
+    padding-left: 5px;
+    padding-right: 5px;
+    vertical-align: auto;
   }

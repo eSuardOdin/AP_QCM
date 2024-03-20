@@ -48,6 +48,10 @@ if (isset($_REQUEST["page"]))
             break;
         case "Ajouter un compte":
             $_SESSION["page"] = "enseignant/gestion_comptes/inscription.php";
+            if(isset($_POST["login"]))
+            {
+                $_SESSION["post"] = $_POST;
+            }
             break;
 
         // -------------------------------------
