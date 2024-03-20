@@ -142,6 +142,8 @@ class Database
 
         return "Rôle inconnu";
     }
+
+    
     /**
      * Check si un login existe déjà
      */

@@ -7,18 +7,19 @@ session_start();
 if (isset($_REQUEST["page"]))
 {
     switch($_REQUEST["page"]){
+        // -------------------------------------
         case "Affectation d'un QCM":
-            // header("Location: ".$_SESSION['base_url']."enseignant/affectation_qcm.php");
             $_SESSION["page"] = "enseignant/affectation_qcm.php";
             break;
+
+        // -------------------------------------
         case "Résultats":
-            // header("Location: ".$_SESSION['base_url']."enseignant/résultats.php");
             $_SESSION["page"] = "enseignant/affectation_qcm.php";
             break;
         
-        // QCM
+        // -------------------------------------
+        // Gestion QCM
         case "Gestion des QCM":
-            // header("Location: ".$_SESSION['base_url']."enseignant/gestion_qcm/menu.php");
             $_SESSION["page"] = "enseignant/gestion_qcm/menu.php";
             break;
         case "Afficher QCM":
@@ -29,10 +30,10 @@ if (isset($_REQUEST["page"]))
                 $_SESSION["qcm"] = $_REQUEST["qcm"];
             }
             break;
-        case "Supprimer QCM":
+        case "Supprimer QCM": // Afficher le formulaire de suppression des QCM
             $_SESSION["page"] = "enseignant/gestion_qcm/supprimer_qcm.php";
             break;
-        case "Supprimer QCM(s)":
+        case "Supprimer QCM(s)": // Lancer la logique de suppression
             if (isset($_REQUEST["del_qcm"]) && $_REQUEST["del_qcm"] != null)
             {
                 $_SESSION["del_qcm"] = $_REQUEST["del_qcm"];
@@ -40,13 +41,16 @@ if (isset($_REQUEST["page"]))
             }
             break;
 
-        // Comptes
+        // -------------------------------------
+        // Gestion des comptes
         case "Gestion des comptes":
-            $_SESSION["page"] = "enseignant/gestion_comptes.php";
+            $_SESSION["page"] = "enseignant/gestion_comptes/menu.php";
             break;
         case "Ajouter un compte":
-            $_SESSION["page"] = "enseignant/ajout_compte.php";
+            $_SESSION["page"] = "enseignant/gestion_comptes/inscription.php";
             break;
+
+        // -------------------------------------
         case "Gestion des groupes":
             $_SESSION["page"] = "enseignant/gestion_groupes.php";
             break;

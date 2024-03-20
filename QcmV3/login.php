@@ -8,6 +8,10 @@
 
 <?php
 session_start();
+use Qcm\Models\UtilisateurModel;
+include_once("Models/UtilisateurModel.php");
+// --------------------------------- Vieille connexion -----------------------
+/*
 use Qcm\Helpers\Database;
 include_once("Classes/Helpers/Database.php");
 
@@ -33,9 +37,40 @@ if(isset($_POST["login"]))
     else
     {
         $_SESSION["user"] = $user;
-        $_SESSION["user"]["role"] = $db->get_role_utilisateur($user["IdUtilisateur"]);
+        $_SESSION["role"] = $db->get_role_utilisateur($user["IdUtilisateur"]);
+
+        header('Location: index.php');
+        exit;
+    }
+}*/
+// --------------------------------------------------------------------------
+
+
+// --------------------------------- Nouvelle connexion ----------------------
+
+if(isset($_SESSION["erreur_sql"]))
+{
+    echo $_SESSION["erreur_sql"];
+    $_SESSION["erreur_sql"] = null;
+}
+if(isset($_POST["login"]))
+{
+    $model = new UtilisateurModel();
+    $id = $model->check_credentials($_POST['login'], $_POST['mdp']);
+    if($id === -1 && !isset($_SESSION["erreur_sql"]))
+    {
+        $_SESSION["erreur_sql"] = "Identifiants incorrects";
+    }
+
+    // Attribution des infos user
+    else
+    {
+        $user = $model->get_utilisateur($id);
+        $_SESSION["user"] = $user;
+        $_SESSION["role"] = $model->get_role_utilisateur($user["IdUtilisateur"]);
 
         header('Location: index.php');
         exit;
     }
 }
+// --------------------------------------------------------------------------

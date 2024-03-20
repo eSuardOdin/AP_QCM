@@ -9,7 +9,7 @@ namespace Qcm\Classes;
 class Utilisateur
 {
 	// Attributs
-	protected int $id_utilisateur;
+	protected ?int $id_utilisateur = null; // Nullable pour eviter l'erreur d'uninitialized
 	protected string $nom;
 	protected string $prénom;
 	protected string $login;
@@ -24,7 +24,7 @@ class Utilisateur
 		string $mdp
 	)
 	{
-		$this->get_id_utilisateur	= $id;
+		$this->id_utilisateur		= $id;
 		$this->nom 					= $nom;
 		$this->prénom 				= $prénom;
 		$this->login 				= $login;

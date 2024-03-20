@@ -1,11 +1,10 @@
-<link rel="stylesheet" href=<?php echo $_SESSION["basepath"] . "style.css?v="?><?php echo time(); ?>>
 
 
 <?php
 session_start();
 
 // $base_url = $_SERVER['DOCUMENT_ROOT'];
-if($_SESSION['user']['role'] == "Enseignant")
+if($_SESSION['role'] == "Enseignant")
 {
     echo '
     <form style="text-align: center;" method="post" action="router.php">
@@ -26,7 +25,7 @@ if($_SESSION['user']['role'] == "Enseignant")
 
 }
 
-else if($_SESSION['user']['role'] == "Elève")
+else if($_SESSION['role'] == "Elève")
 {
     echo '
     <form style="text-align: center;" method="post" action="router.php">

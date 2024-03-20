@@ -18,8 +18,7 @@ class Enseignant extends Utilisateur
 		string $prénom,
 		string $login,
 		string $mdp,
-		int $nb,
-		float $avg
+		int $nb = 0
 	)
 	{
 		parent::__construct($id, $nom, $prénom, $login, $mdp);
