@@ -37,6 +37,17 @@ class UtilisateurModel
 
 
     /**
+     * Supprimer un utilisateur de la db
+     */
+    public function delete_utilisateur(int $id): bool
+    {
+        $statement = $this->db->prepare("DELETE FROM Utilisateurs WHERE IdUtilisateur = :id");
+        $statement->bindParam(':id', $id, \PDO::PARAM_INT);
+        return $statement->execute();
+    }
+
+
+    /**
      * Renvoie l'id d'un utilisateur si son mot de passe et son login correspondent
      * ps: Peut écrire une erreur dans la session, mauvaise pratique -> à surveiller
      * @return int

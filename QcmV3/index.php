@@ -1,8 +1,6 @@
 <link rel="stylesheet" href=<?php echo $_SESSION["basepath"] . "style.css?v="?><?php echo time(); ?>>
 <?php
 session_start();
-use \Qcm\Helpers\Database;
-require_once("Classes/Helpers/Database.php");
 // $_SESSION["basepath"] = "http://qcm.suard/";
 $_SESSION["basepath"] = "http://localhost:5000/";
 

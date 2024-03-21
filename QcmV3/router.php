@@ -55,9 +55,14 @@ if (isset($_REQUEST["page"]))
             }
             break;
         case "Supprimer un compte":
-            $_SESSION["suppression"] = (int)$_POST["suppression"];
+            if(!isset($_SESSION["suppression"]) || $_SESSION["suppression"] == null ){
+                $_SESSION["suppression"] = (int)$_POST["suppression"];
+            } 
             $_SESSION["page"] = "enseignant/gestion_comptes/suppression.php";
-            
+            if(isset($_POST["del"]))
+            {
+                $_SESSION["del"] = true;
+            }
             break;
         // -------------------------------------
         case "Gestion des groupes":
