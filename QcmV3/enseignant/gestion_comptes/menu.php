@@ -1,4 +1,3 @@
-
 <h1>Gestion des comptes</h1>
 
 <?php
@@ -42,20 +41,31 @@ else
         echo '<td>' . $model->get_role_utilisateur((int) $user["IdUtilisateur"]) . '</td>';
         // Formulaire de modification
         echo '
-            <td>
-            <form method="post" action="router.php">
-                <input type="hidden" name="modification" value="'. $user['IdUtilisateur'] . '"/>' .'
-                <input type="submit" value="Modifier"/>
-            </form>
-            </td>';
-        // Formulaire de suppression
-        echo '
         <td>
         <form method="post" action="router.php">
-            <input type="hidden" name="suppression" value="'. $user['IdUtilisateur'] . '"/>' .'
-            <input type="submit" value="Supprimer"/>
+        <input type="hidden" name="modification" value="'. $user['IdUtilisateur'] . '"/>' .'
+        <input type="submit" value="Modifier"/>
         </form>
         </td>';
+        if($_SESSION['user']['IdUtilisateur'] != $user["IdUtilisateur"])
+        {
+            // Formulaire de suppression
+            echo '
+            <td>
+            <form method="post" action="router.php">
+                <input type="hidden" name="page" value="Supprimer un compte"/>
+                <input type="hidden" name="suppression" value="'. $user['IdUtilisateur'] . '"/>' .'
+                <input type="submit" value="Supprimer"/>
+            </form>
+            </td>';
+        }
+        else
+        {
+            echo '
+                <td>
+                    <button disabled>Supprimer</button>
+                </td>';
+        }
         echo '</tr>';
     }
 }

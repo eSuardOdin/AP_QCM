@@ -48,12 +48,17 @@ if (isset($_REQUEST["page"]))
             break;
         case "Ajouter un compte":
             $_SESSION["page"] = "enseignant/gestion_comptes/inscription.php";
+            // Si le form est rempli, on l'affecte à la session
             if(isset($_POST["login"]))
             {
                 $_SESSION["post"] = $_POST;
             }
             break;
-
+        case "Supprimer un compte":
+            $_SESSION["suppression"] = (int)$_POST["suppression"];
+            $_SESSION["page"] = "enseignant/gestion_comptes/suppression.php";
+            
+            break;
         // -------------------------------------
         case "Gestion des groupes":
             $_SESSION["page"] = "enseignant/gestion_groupes.php";
