@@ -40,12 +40,22 @@ else
         echo '<td>' . $user["Login"] . '</td>';
         echo '<td>' . $user["MotDePasse"] . '</td>';
         echo '<td>' . $model->get_role_utilisateur((int) $user["IdUtilisateur"]) . '</td>';
-        echo '<td><form method="post" action="routeur.php">
-        <input type="hidden" name=modification" value="'. $user['IdUtilisateur'] . '"/>' .
-        '<input type="submit" value="Modifier"/></form></td>';
-        echo '<td><form method="post" action="routeur.php">
-        <input type="hidden" name=suppression" value="'. $user['IdUtilisateur'] . '"/>' .
-        '<input type="submit" value="Supprimer"/></form></td>';
+        // Formulaire de modification
+        echo '
+            <td>
+            <form method="post" action="router.php">
+                <input type="hidden" name="modification" value="'. $user['IdUtilisateur'] . '"/>' .'
+                <input type="submit" value="Modifier"/>
+            </form>
+            </td>';
+        // Formulaire de suppression
+        echo '
+        <td>
+        <form method="post" action="router.php">
+            <input type="hidden" name="suppression" value="'. $user['IdUtilisateur'] . '"/>' .'
+            <input type="submit" value="Supprimer"/>
+        </form>
+        </td>';
         echo '</tr>';
     }
 }

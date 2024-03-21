@@ -149,6 +149,17 @@ class UtilisateurModel
         return (int)$this->db->lastInsertId();
     }
 
+    /**
+     * Return true si le login n'est pas déjà utilisé
+     */
+    public function is_login_free(string $login): bool
+    {
+        $statement = $this->db->prepare("SELECT * FROM Utilisateurs WHERE login = :login;");
+        $statement->bindParam(":login", $login, \PDO::PARAM_STR);
+        $statement->execute();
+        $res = $statement->fetch();
+        return $res == null;
+    }
 
     /**
      * Permet d'ajouter un enseignant à la db
