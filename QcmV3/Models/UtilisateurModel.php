@@ -25,14 +25,14 @@ class UtilisateurModel
     /**
      * Renvoie l'utilisateur'à l'ID spécifié ou null si not exists
      */
-    public function get_utilisateur(int $id)//: ?Utilisateur
+    public function get_utilisateur(int $id): ?Utilisateur
     {
         $statement = $this->db->prepare("SELECT * FROM Utilisateurs WHERE IdUtilisateur = :id");
         $statement->bindParam(':id', $id, \PDO::PARAM_INT);
         $statement->execute();
         $arr = $statement->fetch(\PDO::FETCH_ASSOC);
-        // return new Utilisateur($arr['IdUtilisateur'], $arr['Nom'], $arr['Prénom'], $arr['Login'], $arr['MotDePasse']);
-        return $arr;
+        return new Utilisateur($arr['IdUtilisateur'], $arr['Nom'], $arr['Prénom'], $arr['Login'], $arr['MotDePasse']);
+        //return $arr;
     }
 
 
@@ -130,9 +130,16 @@ class UtilisateurModel
      */
     public function get_all_utilisateurs()
     {
+        $res = [];
         $statement = $this->db->prepare("SELECT * FROM Utilisateurs;");
         $statement->execute();
-        return $statement->fetchAll(\PDO::FETCH_ASSOC);
+        foreach($statement->fetchAll(\PDO::FETCH_ASSOC) as $arr)
+        {
+            $user = new Utilisateur($arr['IdUtilisateur'], $arr['Nom'], $arr['Prénom'], $arr['Login'], $arr['MotDePasse']);
+            array_push($res, $user); 
+        }
+
+        return $res;
     }
 
 

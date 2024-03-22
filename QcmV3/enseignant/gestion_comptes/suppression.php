@@ -17,7 +17,7 @@ if($_SESSION["del"] && $model->delete_utilisateur($_SESSION['suppression']))
 }
 else
 {
-    echo "<h3>Voulez vous vraiment supprimer le compte " . $model->get_utilisateur($_SESSION['suppression'])['Login'] . "?</h3>" . 
+    echo "<h3>Voulez vous vraiment supprimer le compte " . $model->get_utilisateur($_SESSION['suppression'])->get_login() . "?</h3>" . 
     "<p>Cette action est irréversible</p><br/>";
     echo '
     <form method="post" action="router.php">

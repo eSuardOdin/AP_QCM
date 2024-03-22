@@ -66,8 +66,12 @@ if(isset($_POST["login"]))
     else
     {
         $user = $model->get_utilisateur($id);
-        $_SESSION["user"] = $user;
-        $_SESSION["role"] = $model->get_role_utilisateur($user["IdUtilisateur"]);
+        $_SESSION["user"]["IdUtilisateur"] = $user->get_id_utilisateur();
+        $_SESSION["user"]["Login"] = $user->get_login();
+        $_SESSION["user"]["Nom"] = $user->get_nom();
+        $_SESSION["user"]["Prénom"] = $user->get_nom();
+
+        $_SESSION["role"] = $model->get_role_utilisateur($user->get_id_utilisateur());
 
         header('Location: index.php');
         exit;

@@ -33,28 +33,28 @@ else
     foreach($users as $user)
     {
         echo '<tr>';
-        echo '<td>' . $user["IdUtilisateur"] . '</td>';
-        echo '<td>' . $user["Nom"] . '</td>';
-        echo '<td>' . $user["Prénom"] . '</td>';
-        echo '<td>' . $user["Login"] . '</td>';
-        echo '<td>' . $user["MotDePasse"] . '</td>';
-        echo '<td>' . $model->get_role_utilisateur((int) $user["IdUtilisateur"]) . '</td>';
+        echo '<td>' . $user->get_id_utilisateur() . '</td>';
+        echo '<td>' . $user->get_nom() . '</td>';
+        echo '<td>' . $user->get_prénom() . '</td>';
+        echo '<td>' . $user->get_login() . '</td>';
+        echo '<td>' . $user->get_mot_de_passe() . '</td>';
+        echo '<td>' . $model->get_role_utilisateur($user->get_id_utilisateur()) . '</td>';
         // Formulaire de modification
         echo '
         <td>
         <form method="post" action="router.php">
-        <input type="hidden" name="modification" value="'. $user['IdUtilisateur'] . '"/>' .'
+        <input type="hidden" name="modification" value="'. $user->get_id_utilisateur() . '"/>' .'
         <input type="submit" value="Modifier"/>
         </form>
         </td>';
-        if($_SESSION['user']['IdUtilisateur'] != $user["IdUtilisateur"])
+        if($_SESSION['user']['IdUtilisateur'] != $user->get_id_utilisateur())
         {
             // Formulaire de suppression
             echo '
             <td>
             <form method="post" action="router.php">
                 <input type="hidden" name="page" value="Supprimer un compte"/>
-                <input type="hidden" name="suppression" value="'. $user['IdUtilisateur'] . '"/>' .'
+                <input type="hidden" name="suppression" value="'. $user->get_id_utilisateur() . '"/>' .'
                 <input type="submit" value="Supprimer"/>
             </form>
             </td>';

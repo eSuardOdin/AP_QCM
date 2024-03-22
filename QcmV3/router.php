@@ -45,6 +45,10 @@ if (isset($_REQUEST["page"]))
         // Gestion des comptes
         case "Gestion des comptes":
             $_SESSION["page"] = "enseignant/gestion_comptes/menu.php";
+            if (isset($_SESSION['suppression']))
+            {
+                $_SESSION['suppression'] = null;
+            }
             break;
         case "Ajouter un compte":
             $_SESSION["page"] = "enseignant/gestion_comptes/inscription.php";
