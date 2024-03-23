@@ -10,6 +10,14 @@ if (isset($_REQUEST["page"]))
         // -------------------------------------
         case "Affectation d'un QCM":
             $_SESSION["page"] = "enseignant/affectation_qcm.php";
+            // Si form est post
+            if (isset( $_POST["qcm"]) && count($_POST["affecte_qcm"]) > 0)
+            {
+                $_SESSION["affectation"]['id_qcm'] = $_POST["qcm"];
+                $_SESSION["affectation"]['date'] = $_POST['date'];
+                $_SESSION["affectation"]['affectés'] = $_POST["affecte_qcm"];
+            }
+            
             break;
 
         // -------------------------------------

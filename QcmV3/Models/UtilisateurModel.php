@@ -75,9 +75,10 @@ class UtilisateurModel
 
     /**
      * Connaitre le rôle d'un utilisateur pour update la session
-     * Return une array ["user" => instance prof ou élève, "role" => string du rôle]
+     * @param int $id L'id de l'utilisateur dont on return le rôle
+     * @return string Une chaîne à switch
      */
-    public function get_role_utilisateur($id)//: array
+    public function get_role_utilisateur($id): string
     {
         $statementElève = $this->db->prepare("SELECT * FROM Elèves WHERE IdElève = :id;");
         $statementElève->bindParam(":id", $id, \PDO::PARAM_INT);
@@ -127,11 +128,25 @@ class UtilisateurModel
 
     /**
      * Return tous les utilisateurs
+     * @param string $role : Le rôle des utilisateurs à return, null par défaut.
+     * 
+     * @return Utilisateur[]
      */
-    public function get_all_utilisateurs()
+    public function get_all_utilisateurs(string $role = null): array
     {
         $res = [];
-        $statement = $this->db->prepare("SELECT * FROM Utilisateurs;");
+        if($role == null)
+        {
+            $statement = $this->db->prepare("SELECT * FROM Utilisateurs;");
+        }
+        else if ($role == "enseignant")
+        {
+            $statement = $this->db->prepare("SELECT Utilisateurs.* FROM Utilisateurs, Enseignants WHERE IdUtilisateur = IdEnseignant;");
+        }
+        else if ($role == "élève")
+        {
+            $statement = $this->db->prepare("SELECT Utilisateurs.* FROM Utilisateurs, Elèves WHERE IdUtilisateur = IdElève;");
+        }
         $statement->execute();
         foreach($statement->fetchAll(\PDO::FETCH_ASSOC) as $arr)
         {

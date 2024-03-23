@@ -7,8 +7,8 @@ class Résultat
     // Attributs
     private int $id_résultat;
     private string $date_affectation;
-    private string $date_réalisation;
-    private int $note;
+    private ?string $date_réalisation;
+    private ?int $note;
     private int $id_élève;
     private int $id_qcm;
     private int $id_responsable;
