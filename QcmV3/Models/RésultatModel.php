@@ -23,19 +23,24 @@ class RésultatModel
         $res = $this->get_qcm_élève_résultat($id_q, $id_e);
         if ($res != null) { return -1; }
         $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        // $statement = $this->db->prepare("INSERT INTO Résultats(DateAffectation, DateRéalisation, Note, IdElève, IdQCM, IdResponsable) 
-        // VALUES (:DateAffectation, :DateRéalisation, :Note, :Elève, :Qcm, :Responsable);");
-        // $statement->bindParam(":DateAffectation", $dateAffectation, \PDO::PARAM_STR);
-        // $statement->bindValue(":DateRéalisation", null, \PDO::PARAM_STR);
-        // $statement->bindValue(":Note", null, \PDO::PARAM_STR);
-        // $statement->bindParam(":Elève", $id_e, \PDO::PARAM_INT);
-        // $statement->bindParam(":Qcm", $id_q, \PDO::PARAM_INT);
-        // $statement->bindParam(":Responsable", $id_r, \PDO::PARAM_INT);
+
+        // Je n'arrive pas à utiliser les placeholders pour cette requète, à cause de NULL ?
+        /*
+        $statement = $this->db->prepare("INSERT INTO Résultats(DateAffectation, DateRéalisation, Note, IdElève, IdQCM, IdResponsable) 
+        VALUES (:DateAffectation, :DateRéalisation, :Note, :Elève, :Qcm, :Responsable);");
+        $statement->bindParam(":DateAffectation", $dateAffectation, \PDO::PARAM_STR);
+        $statement->bindValue(":DateRéalisation", null, \PDO::PARAM_STR);
+        $statement->bindValue(":Note", null, \PDO::PARAM_STR);
+        $statement->bindParam(":Elève", $id_e, \PDO::PARAM_INT);
+        $statement->bindParam(":Qcm", $id_q, \PDO::PARAM_INT);
+        $statement->bindParam(":Responsable", $id_r, \PDO::PARAM_INT);
+        */
+
+        // Je l'écris donc en dur même si non secure, mon form n'est pas censé permettre d'injection.. (pas de champ d'input text)
         $statement = $this->db->prepare("INSERT INTO Résultats(DateAffectation, DateRéalisation, Note, IdElève, IdQCM, IdResponsable) 
         VALUES ('".$dateAffectation."', NULL, NULL, ". $id_e. ", ". (int)$id_q .", " . $id_r .");");
         try {
-        $statement->execute();
-            $_SESSION['AAAAAAAA'] = $statement;
+            $statement->execute();
         } catch (\PDOException $e) {
             $_SESSION['erreur_sql']  = $e;
             $statement->debugDumpParams();

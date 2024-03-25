@@ -30,7 +30,7 @@ if(isset($_SESSION["affectation"]))
     echo '<pre>';
     echo var_dump($_SESSION['affectation']);
     echo '</pre>';
-    echo '<form method="post" action="router.php"><input type="hidden" name="page" value="Affectation d\'un QCM"/><input type="submit" value="Retour"/>';
+    echo '<form method="post" action="router.php"><input type="hidden" name="page" value="Affectation d\'un QCM"/><input type="submit" value="Retour"/><br/>';
     $id_qcm = (int)$_SESSION["affectation"]["id_qcm"];
     foreach($_SESSION["affectation"]["affectés"] as $id_user)
     {

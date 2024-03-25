@@ -69,7 +69,7 @@ if(isset($_POST["login"]))
         $_SESSION["user"]["IdUtilisateur"] = $user->get_id_utilisateur();
         $_SESSION["user"]["Login"] = $user->get_login();
         $_SESSION["user"]["Nom"] = $user->get_nom();
-        $_SESSION["user"]["Prénom"] = $user->get_nom();
+        $_SESSION["user"]["Prénom"] = $user->get_prénom();
 
         $_SESSION["role"] = $model->get_role_utilisateur($user->get_id_utilisateur());
 

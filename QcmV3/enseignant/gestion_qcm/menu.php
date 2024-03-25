@@ -1,6 +1,8 @@
 
 <form method="post" action="router.php">
     <input name="page" type="submit" value="Afficher QCM"/>
+    <input name="page" type="submit" value="Ajouter QCM"/>
+    <input name="page" type="submit" value="Modifier QCM"/>
     <input name="page" type="submit" value="Supprimer QCM"/>
 </form>
 

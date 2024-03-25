@@ -9,6 +9,13 @@ if(!isset($_SESSION["user"]) || $_SESSION["role"] == "Rôle inconnu"){
     include_once("login.php");
 } 
 else {
+    echo '
+    <div style="display: flex; justify-content: space-around;">
+        <p>Application QCM</p>
+        <p>Utilisateur: ' . $_SESSION['user']['Prénom'] . ' ' . $_SESSION['user']['Nom'] . '</p>' . '
+        <p>Type: ' . $_SESSION['role'] . '</p>' . '
+    </div>
+    ';
     include_once('accueil.php');
 }
 

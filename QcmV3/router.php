@@ -30,6 +30,7 @@ if (isset($_REQUEST["page"]))
         case "Gestion des QCM":
             $_SESSION["page"] = "enseignant/gestion_qcm/menu.php";
             break;
+        // Afficher 
         case "Afficher QCM":
             $_SESSION["page"] = "enseignant/gestion_qcm/afficher_qcm.php";
             // Get l'id du qcm dans la session
@@ -38,6 +39,7 @@ if (isset($_REQUEST["page"]))
                 $_SESSION["qcm"] = $_REQUEST["qcm"];
             }
             break;
+        // Supprimer
         case "Supprimer QCM": // Afficher le formulaire de suppression des QCM
             $_SESSION["page"] = "enseignant/gestion_qcm/supprimer_qcm.php";
             break;
@@ -48,7 +50,14 @@ if (isset($_REQUEST["page"]))
                 $_SESSION["page"] = "enseignant/gestion_qcm/confirmation_supprimer_qcm.php";
             }
             break;
-
+        // Ajouter
+        case "Ajouter QCM":
+            $_SESSION["page"] = "enseignant/gestion_qcm/ajouter_qcm.php";
+            break;
+        // Modifier
+        case "Modifier QCM":
+            $_SESSION["page"] = "enseignant/gestion_qcm/modifier_qcm.php";
+            break;
         // -------------------------------------
         // Gestion des comptes
         case "Gestion des comptes":
