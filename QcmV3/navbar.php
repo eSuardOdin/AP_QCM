@@ -29,6 +29,7 @@ else if($_SESSION['role'] == "Elève")
 {
     echo '
     <form style="text-align: center;" method="post" action="router.php">
+        <input name="page" class="btn-link" type="submit" value="Tableau de bord"/> -
         <input name="page" class="btn-link" type="submit" value="Déconnexion"/>
     </form> ';
 }

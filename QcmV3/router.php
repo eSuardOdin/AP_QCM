@@ -89,6 +89,15 @@ if (isset($_REQUEST["page"]))
         case "Gestion des groupes":
             $_SESSION["page"] = "enseignant/gestion_groupes.php";
             break;
+
+        // -------------------------------------
+        // ELEVE
+        case "Tableau de bord":
+            $_SESSION["page"] = "élève/tableau_bord.php";
+            break;
+
+        // -------------------------------------
+        // COMMUN
         case "Déconnexion":
             $_SESSION["page"] = "deconnexion.php";
             break;

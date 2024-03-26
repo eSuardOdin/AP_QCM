@@ -76,7 +76,7 @@ class RésultatModel
 
     /**
      * Obtenir tous les résultats/affectations d'un élève
-     * @return Résultat[]
+     * @return []
      */
     public function get_all_résultat_élève(int $id_élève): array
     {
@@ -84,7 +84,6 @@ class RésultatModel
         $statement->bindParam(':id', $id_élève, \PDO::PARAM_INT);
         $statement->execute();
 
-        $_SESSION['query'] = $statement;
         $res = [];
         foreach ($statement->fetchAll(\PDO::FETCH_ASSOC) as $row)
         {

@@ -28,8 +28,8 @@ class Résultat
     // Getters
     public function get_id_résultat(): int { return $this->id_résultat; }
     public function get_date_affectation(): string { return $this->date_affectation; }
-    public function get_date_réalisation(): string { return $this->date_réalisation; }
-    public function get_note(): int { return $this->note; }
+    public function get_date_réalisation(): ?string { return $this->date_réalisation; }
+    public function get_note(): ?int { return $this->note; }
     public function get_id_élève(): int { return $this->id_élève; }
     public function get_id_qcm(): int { return $this->id_qcm; }
     public function get_id_responsable(): int { return $this->id_responsable; }

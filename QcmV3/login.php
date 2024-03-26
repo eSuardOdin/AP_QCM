@@ -73,11 +73,11 @@ if(isset($_POST["login"]))
 
         $_SESSION["role"] = $model->get_role_utilisateur($user->get_id_utilisateur());
 
-        // Test élève
-        if($_SESSION["role"] == "Elève")
-        {
-            $_SESSION["page"] = "élève/tableau_bord.php";
-        }
+        // // Test élève
+        // if($_SESSION["role"] == "Elève")
+        // {
+        //     $_SESSION["page"] = "élève/tableau_bord.php";
+        // }
         header('Location: index.php');
         exit;
     }
