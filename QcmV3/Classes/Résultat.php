@@ -8,13 +8,13 @@ class Résultat
     private int $id_résultat;
     private string $date_affectation;
     private ?string $date_réalisation;
-    private ?int $note;
+    private ?float $note; // Changé depuis int
     private int $id_élève;
     private int $id_qcm;
     private int $id_responsable;
 
     // Constructeur
-    public function __construct(int $id, string $date_aff, ?string $date_réal, ?int $note, int $élève, int $qcm, int $resp)
+    public function __construct(int $id, string $date_aff, ?string $date_réal, ?float $note, int $élève, int $qcm, int $resp)
     {
         $this->id_résultat = $id;
         $this->date_affectation = $date_aff;
@@ -29,7 +29,7 @@ class Résultat
     public function get_id_résultat(): int { return $this->id_résultat; }
     public function get_date_affectation(): string { return $this->date_affectation; }
     public function get_date_réalisation(): ?string { return $this->date_réalisation; }
-    public function get_note(): ?int { return $this->note; }
+    public function get_note(): ?float { return $this->note; }
     public function get_id_élève(): int { return $this->id_élève; }
     public function get_id_qcm(): int { return $this->id_qcm; }
     public function get_id_responsable(): int { return $this->id_responsable; }
@@ -47,7 +47,7 @@ class Résultat
     {
         $this->date_réalisation = $date_réalisation;
     }
-    public function set_note(int $note): void
+    public function set_note(float $note): void
     {
         $this->note = $note;
     }

@@ -8,6 +8,11 @@ include_once("Models/QuestionModel.php");
 use Qcm\Models\PropositionModel;
 include_once("Models/PropositionModel.php");
 
+use Qcm\Classes\Réponse;
+include_once("Classes/Réponse.php");
+use Qcm\Models\RéponseModel;
+include_once("Models/RéponseModel.php");
+
 
 
 $resultat_model = new RésultatModel();
@@ -26,26 +31,18 @@ $points = 100 / count($questions);
 
 // Check les questions avec réponses
 $questions_faites = [];
-// $rep_questions = [];
 foreach($_SESSION['qcm'] as $rep)
 {
     // Pour simplement checker si réponse sur une question
     array_push($questions_faites, $rep['question']);
-    // // Pour comparer les bonnes réponses strictement
-    // $question = [$rep['question'] => null];
-    // foreach($rep['réponses'] as $r)
-    // {
-    //     array_push($question, $r);
-    // }
-    // sort($question);
-    // array_push($rep_questions, $question);
 }
-// On part de 20 et points dégressifs
+// On part de max points et dégressif sur erreur
 $note = 100;
 /* 
 Foreach questions : 
     - Check si on a répondu a la question, si non : 0 points
     - Si on a une mauvaise réponse : 0 points
+    - Si on a une partie de bonne réponses -> partie/total points
     - Toutes les bonnes réponses : tous les points
 */
 foreach($questions as $question)
@@ -70,19 +67,21 @@ foreach($questions as $question)
     {
         if($q['question'] == $question->get_id_question())
         {
-            echo '<br/><p>Question checkée : ' . $question->get_id_question() . '</p>';
             foreach($q['reponses'] as $r)
             {
+
                 if(!in_array($r, $prop_justes))
                 {
                     $error = true;
-                    break;
+                    // break;
+                    // °°°°°°°°°°°°°°°°°°°°°
+                    // RAJOUTER REPONSES DB ICI ?
                 }
             }
             break;
         }
     }
-    // Si on a une réponse fausse
+    // Skip le reste si réponse fausse
     if($error)
     {
         $note -= $points;
@@ -96,28 +95,17 @@ foreach($questions as $question)
         if($q['question'] == $question->get_id_question())
         {
             // Si non, on enlève l'équivalent de points
-            // (s'il manque une réponse sur 3, on enlève 1/3 points)
             if(count($q['reponses']) != $nb_reponses)
             {
                 $note -= $points * (($nb_reponses - count($q['reponses'])) / $nb_reponses);
             }
         }
     }
-    
-
-
-    
-    
-    
 }
 
-echo'<pre>';
-// var_dump($prop_justes);
-// var_dump($réponses_joueur_question);
-var_dump($note);
-// var_dump($question);
-// var_dump($rep_questions[$question->get_id_question()]);
-echo'</pre>';
+$resultat->set_note($note);
+
+echo '<pre>' . var_dump($resultat) . '</pre>';
 
 $_SESSION['qcm'] = null;
 // Insertions des données
