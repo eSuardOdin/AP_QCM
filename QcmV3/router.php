@@ -95,6 +95,12 @@ if (isset($_REQUEST["page"]))
         case "Tableau de bord":
             $_SESSION["page"] = "élève/tableau_bord.php";
             break;
+        case "Afficher":
+            $_SESSION["page"] = "élève/synthèse.php";
+            break;
+        case "Réaliser":
+            $_SESSION["page"] = "élève/jeu.php";
+            break;
 
         // -------------------------------------
         // COMMUN
