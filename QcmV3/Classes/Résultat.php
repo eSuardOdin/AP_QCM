@@ -14,7 +14,7 @@ class Résultat
     private int $id_responsable;
 
     // Constructeur
-    public function __construct(int $id, string $date_aff, string $date_réal, int $note, int $élève, int $qcm, int $resp)
+    public function __construct(int $id, string $date_aff, ?string $date_réal, ?int $note, int $élève, int $qcm, int $resp)
     {
         $this->id_résultat = $id;
         $this->date_affectation = $date_aff;

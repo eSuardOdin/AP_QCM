@@ -73,4 +73,34 @@ class RésultatModel
 
         return $arr['IdRésultat'];
     }
+
+    /**
+     * Obtenir tous les résultats/affectations d'un élève
+     * @return Résultat[]
+     */
+    public function get_all_résultat_élève(int $id_élève): array
+    {
+        $statement = $this->db->prepare('SELECT * FROM Résultats WHERE IdElève = :id');
+        $statement->bindParam(':id', $id_élève, \PDO::PARAM_INT);
+        $statement->execute();
+
+        $_SESSION['query'] = $statement;
+        $res = [];
+        foreach ($statement->fetchAll(\PDO::FETCH_ASSOC) as $row)
+        {
+            array_push(
+                $res, 
+                new Résultat(
+                    $row['IdRésultat'],
+                    $row['DateAffectation'],
+                    $row['DateRéalisation'],
+                    $row['Note'],
+                    $row['IdElève'],
+                    $row['IdQCM'],
+                    $row['IdResponsable']
+                )
+            );
+        }
+        return $res;
+    }
 }
