@@ -34,6 +34,11 @@ else
     // Affichage des infos QCM 
     foreach($resultats as $res)
     {
+        // Check si l'affectation est valide
+        $affecté = date('U', strtotime($res->get_date_affectation())) <= date('U', strtotime(date("Y-m-d")));
+        $color = $affecté ? "green" : "red";
+        $is_enabled = $affecté ? "" : "disabled";
+
         $qcm = $qcm_model->get_qcm($res->get_id_qcm());
         $thème = $thème_model->get_thème($qcm->get_id_thème());
         echo '
@@ -41,7 +46,7 @@ else
             <td>' . $qcm->get_id_qcm() . ' </td>' .'
             <td>' . $thème->get_description() . '</td>' .'
             <td>' . $qcm->get_libellé_qcm() . '</td>' .'
-            <td>' . $res->get_date_affectation() . '</td>' .'
+            <td style="color:' . $color . ';">' . $res->get_date_affectation() . '</td>' .'
             <td>' . $res->get_note() . '</td>'
         ;
         // Si réalisé
@@ -52,6 +57,7 @@ else
             </td>
             <td>
             <form method="post" action="router.php">
+                <input type="hidden" name="résultat" value="' . $res->get_id_résultat() . '"/>
                 <input type="hidden" name="qcm" value="' . $qcm->get_id_qcm() . '"/>
                 <input type="submit" name="page" value="Afficher"/>
             </form>
@@ -63,8 +69,9 @@ else
             echo '
             <td>
             <form method="post" action="router.php">
+                <input type="hidden" name="résultat" value="' . $res->get_id_résultat() . '"/>
                 <input type="hidden" name="qcm" value="' . $qcm->get_id_qcm() . '"/>
-                <input type="submit" name="page" value="Réaliser"/>
+                <input type="submit" ' . $is_enabled . ' name="page" value="Réaliser"/>
             </form>
             </td>
             <td></td>

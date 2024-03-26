@@ -96,10 +96,30 @@ if (isset($_REQUEST["page"]))
             $_SESSION["page"] = "élève/tableau_bord.php";
             break;
         case "Afficher":
+            $_SESSION['qcm'] = $_POST['qcm'];
+            $_SESSION['résultat'] = $_POST['résultat'];
             $_SESSION["page"] = "élève/synthèse.php";
             break;
         case "Réaliser":
+            $_SESSION['qcm'] = $_POST['qcm'];
+            $_SESSION['résultat'] = $_POST['résultat'];
             $_SESSION["page"] = "élève/jeu.php";
+            break;
+        // Traitement du qcm
+        case "traitement":
+            // Get les réponses
+            $_SESSION['qcm'] = [];
+            foreach($_POST as $key => $value)
+            {
+                if($key != "page")
+                {
+                    array_push($_SESSION['qcm'], [
+                        "question" => $key,    
+                        "reponses" => $value
+                    ]);
+                }
+            }
+            $_SESSION["page"] = "élève/traitement.php";
             break;
 
         // -------------------------------------

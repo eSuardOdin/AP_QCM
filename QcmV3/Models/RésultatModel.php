@@ -58,6 +58,29 @@ class RésultatModel
         return (int)$this->db->lastInsertId();
     }
 
+    /**
+     * Get un résultat selon son ID
+     */
+    public function get_résultat(int $id): ?Résultat
+    {
+        $statement = $this->db->prepare("SELECT * FROM Résultats WHERE IdRésultat = :id");
+        $statement->bindParam(":id", $id, \PDO::PARAM_INT);
+        $statement->execute();
+        
+        $arr = $statement->fetch(\PDO::FETCH_ASSOC);
+
+        return ($arr != null) ?  new Résultat(
+                $arr["IdRésultat"],
+                $arr["DateAffectation"],
+                $arr["DateRéalisation"],
+                $arr["Note"],
+                $arr["IdElève"],
+                $arr["IdQCM"],
+                $arr["IdResponsable"],
+            ) : null;
+        
+    }
+
 
     /**
      * Get le résultat d'un QCM associé à un élève
@@ -102,4 +125,6 @@ class RésultatModel
         }
         return $res;
     }
+
+
 }
