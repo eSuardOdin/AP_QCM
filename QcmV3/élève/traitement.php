@@ -3,6 +3,11 @@ use Qcm\Classes\Résultat;
 include_once("Classes/Résultat.php");
 use Qcm\Models\RésultatModel;
 include_once("Models/RésultatModel.php");
+use Qcm\Models\QuestionModel;
+include_once("Models/QuestionModel.php");
+use Qcm\Models\PropositionModel;
+include_once("Models/PropositionModel.php");
+
 
 
 $resultat_model = new RésultatModel();
@@ -12,18 +17,113 @@ $resultat = $resultat_model->get_résultat($_SESSION['résultat']);
 $today = date("Y-m-d");
 $resultat->set_date_réalisation($today);
 
-// echo '<pre>';
-// echo var_dump($_SESSION['qcm']);
-// echo '</pre>';
-echo '<pre>';
-echo var_dump($resultat);
-echo '</pre>';
+// Trouver toutes les questions pour connaitre les points associés à une question
+$question_model = new QuestionModel();
+$questions = $question_model->get_qcm_questions($resultat->get_id_qcm());
+$proposition_model = new PropositionModel();
+// Calcul des points par question en fonction du nb de questions
+$points = 100 / count($questions);
 
+// Check les questions avec réponses
+$questions_faites = [];
+// $rep_questions = [];
+foreach($_SESSION['qcm'] as $rep)
+{
+    // Pour simplement checker si réponse sur une question
+    array_push($questions_faites, $rep['question']);
+    // // Pour comparer les bonnes réponses strictement
+    // $question = [$rep['question'] => null];
+    // foreach($rep['réponses'] as $r)
+    // {
+    //     array_push($question, $r);
+    // }
+    // sort($question);
+    // array_push($rep_questions, $question);
+}
+// On part de 20 et points dégressifs
+$note = 100;
+/* 
+Foreach questions : 
+    - Check si on a répondu a la question, si non : 0 points
+    - Si on a une mauvaise réponse : 0 points
+    - Toutes les bonnes réponses : tous les points
+*/
+foreach($questions as $question)
+{
+    // Check si on a répondu a la question, si non : 0 points
+    if(!in_array($question->get_id_question(), $questions_faites))
+    {
+        $note -= $points;
+        continue;
+    }
+    
+    // Get toutes les propositions justes
+    $prop_justes = [];
+    foreach($proposition_model->get_question_propositions_justes($question->get_id_question()) as $prop)
+    {
+        array_push($prop_justes, $prop->get_id_proposition());
+    }
+
+    // Check si on a une réponse fausse
+    $error = false;
+    foreach($_SESSION['qcm'] as $q)
+    {
+        if($q['question'] == $question->get_id_question())
+        {
+            echo '<br/><p>Question checkée : ' . $question->get_id_question() . '</p>';
+            foreach($q['reponses'] as $r)
+            {
+                if(!in_array($r, $prop_justes))
+                {
+                    $error = true;
+                    break;
+                }
+            }
+            break;
+        }
+    }
+    // Si on a une réponse fausse
+    if($error)
+    {
+        $note -= $points;
+        continue;
+    }
+
+    // Check si on a toutes les bonnes réponses
+    $nb_reponses = count($prop_justes);
+    foreach($_SESSION['qcm'] as $q)
+    {
+        if($q['question'] == $question->get_id_question())
+        {
+            // Si non, on enlève l'équivalent de points
+            // (s'il manque une réponse sur 3, on enlève 1/3 points)
+            if(count($q['reponses']) != $nb_reponses)
+            {
+                $note -= $points * (($nb_reponses - count($q['reponses'])) / $nb_reponses);
+            }
+        }
+    }
+    
+
+
+    
+    
+    
+}
+
+echo'<pre>';
+// var_dump($prop_justes);
+// var_dump($réponses_joueur_question);
+var_dump($note);
+// var_dump($question);
+// var_dump($rep_questions[$question->get_id_question()]);
+echo'</pre>';
+
+$_SESSION['qcm'] = null;
 // Insertions des données
 
-// Trouver toutes les questions pour connaitre les points associés à une question
 
 
-echo '<br/><br/><br/>';
-echo '<h4>Affectation: ' . date('U', strtotime($resultat->get_date_affectation())) . '<br/>';
-echo '<h4>Réalisation: ' . date('U', strtotime($resultat->get_date_réalisation())) . '<br/>';
+// echo '<br/><br/><br/>';
+// echo '<h4>Affectation: ' . date('U', strtotime($resultat->get_date_affectation())) . '<br/>';
+// echo '<h4>Réalisation: ' . date('U', strtotime($resultat->get_date_réalisation())) . '<br/>';

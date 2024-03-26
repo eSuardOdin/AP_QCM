@@ -49,4 +49,23 @@ class PropositionModel
         }
         return $res;
     }
+
+    /**
+     * Return les bonnes Propositions associées à une question
+     * @return Proposition[]
+     */
+    public function get_question_propositions_justes(int $question_id): array
+    {
+        $statement = $this->db->prepare('SELECT * FROM Propositions WHERE IdQuestionAssociée = :id AND RésultatVraiFaux = TRUE;');
+        $statement->bindParam(":id", $question_id, \PDO::PARAM_INT);
+        $statement->execute();
+
+        $res = [];
+
+        foreach($statement->fetchAll(\PDO::FETCH_ASSOC) as $arr)
+        {
+            array_push($res, new Proposition($arr['IdProposition'], $arr['LibelléProposition'], ($arr['RésultatVraiFaux'] == 1), $arr['IdQuestionAssociée']));
+        }
+        return $res;
+    }
 }
