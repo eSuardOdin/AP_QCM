@@ -7,20 +7,16 @@ use Qcm\Models\QuestionModel;
 include_once("Models/QuestionModel.php");
 use Qcm\Models\PropositionModel;
 include_once("Models/PropositionModel.php");
-
 use Qcm\Classes\Réponse;
 include_once("Classes/Réponse.php");
 use Qcm\Models\RéponseModel;
 include_once("Models/RéponseModel.php");
 
 
-
+$reponse_model = new RéponseModel();
 $resultat_model = new RésultatModel();
 $resultat = $resultat_model->get_résultat($_SESSION['résultat']);
 
-// Set de la date de réalisation
-$today = date("Y-m-d");
-$resultat->set_date_réalisation($today);
 
 // Trouver toutes les questions pour connaitre les points associés à une question
 $question_model = new QuestionModel();
@@ -35,6 +31,15 @@ foreach($_SESSION['qcm'] as $rep)
 {
     // Pour simplement checker si réponse sur une question
     array_push($questions_faites, $rep['question']);
+    // Ajouter les propositions dans la db
+    foreach($rep['reponses'] as $r)
+    {
+        $rep = new Réponse((int)$_SESSION['résultat'], (int)$r);
+        $reponse_model->save_réponse($rep);
+        echo'<pre>';
+        echo print_r($rep);
+        echo'</pre>';
+    }
 }
 // On part de max points et dégressif sur erreur
 $note = 100;
@@ -73,9 +78,6 @@ foreach($questions as $question)
                 if(!in_array($r, $prop_justes))
                 {
                     $error = true;
-                    // break;
-                    // °°°°°°°°°°°°°°°°°°°°°
-                    // RAJOUTER REPONSES DB ICI ?
                 }
             }
             break;
@@ -103,9 +105,20 @@ foreach($questions as $question)
     }
 }
 
-$resultat->set_note($note);
 
-echo '<pre>' . var_dump($resultat) . '</pre>';
+// Modif du résultat
+$resultat->set_note($note);
+// Set de la date de réalisation
+$resultat->set_date_réalisation(date("Y-m-d"));
+
+
+$resultat_model->update_résultat($resultat);
+
+
+// echo 'Votre résultat a bien été enregistré (oui, ça coute rien de le dire sans le vérifier)';
+echo '<pre>';
+echo print_r($resultat);
+echo '</pre>';
 
 $_SESSION['qcm'] = null;
 // Insertions des données
