@@ -62,7 +62,7 @@ class RésultatModel
      * Update le résultat après un jeu
      * ATTENTION : Uniquement note et date réalisation
      */
-    public function update_résultat(Résultat $r)
+    public function update_résultat(Résultat $r): int
     {
         $statement = $this->db->prepare("UPDATE Résultats SET DateRéalisation = :date_r, Note = :note WHERE IdRésultat = :id");
         $statement->bindValue(":date_r", $r->get_date_réalisation(), \PDO::PARAM_STR);
@@ -77,7 +77,9 @@ class RésultatModel
         catch (\PDOException $e)
         {
             $_SESSION['erreur_sql'] = $e;
+            return 1;
         }
+        return 0;
     }
     /**
      * Get un résultat selon son ID

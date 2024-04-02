@@ -36,9 +36,6 @@ foreach($_SESSION['qcm'] as $rep)
     {
         $rep = new Réponse((int)$_SESSION['résultat'], (int)$r);
         $reponse_model->save_réponse($rep);
-        echo'<pre>';
-        echo print_r($rep);
-        echo'</pre>';
     }
 }
 // On part de max points et dégressif sur erreur
@@ -111,14 +108,18 @@ $resultat->set_note($note);
 // Set de la date de réalisation
 $resultat->set_date_réalisation(date("Y-m-d"));
 
+// On push le resultat et get le statut du push dans la db
+$update_status = $resultat_model->update_résultat($resultat);
 
-$resultat_model->update_résultat($resultat);
 
-
-// echo 'Votre résultat a bien été enregistré (oui, ça coute rien de le dire sans le vérifier)';
-echo '<pre>';
-echo print_r($resultat);
-echo '</pre>';
+if($update_status == 0)
+{
+    echo '<p>Votre résultat a bien été enregistré.</p>';
+}
+else
+{
+    echo '<p>Il y a eu une erreur lors de l\'insertion du résultat dans la base de données.</p>';
+}
 
 $_SESSION['qcm'] = null;
 // Insertions des données
