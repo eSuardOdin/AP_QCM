@@ -55,6 +55,7 @@ if (isset($_REQUEST["page"]))
             $_SESSION["page"] = "enseignant/gestion_qcm/ajouter_qcm.php";
             break;
         case "Créer QCM":
+            $_SESSION['qcm_form'] = $_POST;
             $_SESSION["page"] = "enseignant/gestion_qcm/traitement_ajout.php";
             break;
         // Modifier

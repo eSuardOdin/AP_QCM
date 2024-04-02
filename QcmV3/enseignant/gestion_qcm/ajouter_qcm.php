@@ -1,15 +1,28 @@
+<?php
+session_start();
+use Qcm\Models\QcmModel;
+include_once("Models/QcmModel.php");
+use Qcm\Models\QuestionModel;
+include_once("Models/QuestionModel.php");
+use Qcm\Models\PropositionModel;
+include_once("Models/PropositionModel.php");
+
+echo '
 <html>
 <body>
 <p>Pour ajouter un QCM, il faut au moins une proposition juste par question</p>
 <p>PENSER A RAJOUTER LES THEMES</p>
-<form id="qcm_form" method="post" action="traitement.php">
-    <input type="text" name="libellé">
+<form name="qcm_form" method="post" action="router.php">
+    <label for="libellé">Titre du QCM : </label>
+    <input type="text" name="libellé" minlength="2" maxlength="128" required>
     <div id="questions_container">
-        <!-- Les questions ajoutées dynamiquement seront placées ici -->
+        
+    
     </div>
     <button type="button" id="add_question">Ajouter une question</button>
-    <button name="page" type="submit">Créer QCM</button>
-</form>
+    <input type="submit" name="page" value="Créer QCM"/>
+</form> ';
+?>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     var questionCount = 0;
@@ -30,6 +43,8 @@ document.addEventListener("DOMContentLoaded", function() {
         
         var questionInput = document.createElement('input');
         questionInput.type = 'text';
+        questionInput.minLength = '8';
+        questionInput.maxLength = '256';
         questionInput.name = 'questions[]';
         questionInput.id = 'question_' + questionCount;
         questionInput.required = true;
@@ -62,6 +77,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
         var propositionInput = document.createElement('input');
         propositionInput.type = 'text';
+        propositionInput.minLength = '1';
+        propositionInput.maxLength = '256';
         propositionInput.name = 'propositions[' + questionCount + '][]';
         propositionInput.required = true;
 
@@ -93,11 +110,3 @@ document.addEventListener("DOMContentLoaded", function() {
 </body>
 </html>
 
-<?php
-session_start();
-use Qcm\Models\QcmModel;
-include_once("Models/QcmModel.php");
-use Qcm\Models\QuestionModel;
-include_once("Models/QuestionModel.php");
-use Qcm\Models\PropositionModel;
-include_once("Models/PropositionModel.php");
