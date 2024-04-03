@@ -9,9 +9,6 @@ use Qcm\Models\ThèmeModel;
 include_once("Models/ThèmeModel.php");
 
 $thème_model = new ThèmeModel();
-// echo "<pre>";
-// echo var_dump($_SESSION);
-// echo "</pre>";
 
 
 // Si nouveau Thème, ajout du thème à la db
@@ -22,5 +19,18 @@ if(isset($_SESSION['qcm_form']['new_thème']))
     {
         echo 'Le thème ' . ($thème_model->get_thème($id_thème))->get_description() . ' a été créé';
     }
+}
+
+
+// Affichage des questions :
+$i_question = 1;
+foreach($_SESSION['qcm_form']['questions'] as $q)
+{
+    echo '<h5>' . $q . '</h5>';
+    foreach($_SESSION['qcm_form']['propositions'][$i_question] as $p)
+    {
+        echo '<p>-' . $p . '</p><br/>';
+    }
+    $i_question++;
 }
 
