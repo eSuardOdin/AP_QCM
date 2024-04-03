@@ -10,6 +10,17 @@
     font-size: inherit;
 }
 
+.inactive_btn
+{
+    background-color: #000000;
+    color: white;
+}
+
+.active_btn
+{
+    background-color: #f1f1f1;
+    color: black;
+}
 
 table, th, td {
     text-align: center;

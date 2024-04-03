@@ -32,4 +32,50 @@ class ThèmeModel
 
         return $res;
     }
+
+    /**
+     * Get tous les thèmes et return une array d'objets Thème
+     */
+    public function get_all_thèmes(): array
+    {
+        $arr = [];
+
+        $statement = $this->db->prepare('SELECT * FROM Thèmes;');
+        try
+        {
+            $statement->execute();
+            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            foreach($result as $t)
+            {
+
+                array_push($arr, new Thème($t['IdThème'], $t['Description']));
+            }
+        }
+        catch(\PDOException $e)
+        {
+            $_SESSION['erreur_sql'] = $e->getMessage();
+        }
+
+        return $arr;
+    }
+
+
+    /**
+     * Ajouter un thème dans la db
+     */
+    public function save_thème(string $description): int
+    {
+        $statement = $this->db->prepare('INSERT INTO Thèmes(Description) VALUES (:descript);');
+        $statement->bindParam(':descript', $description, \PDO::PARAM_STR);
+        try
+        {
+            $statement->execute();
+            return (int)$this->db->lastInsertId();
+        }
+        catch(\PDOException $e)
+        {
+            $_SESSION['erreur_sql'] = $e->getMessage();
+        }
+        return -1;
+    }
 }
