@@ -12,14 +12,14 @@ $thème_model = new ThèmeModel();
 
 
 // Si nouveau Thème, ajout du thème à la db
-if(isset($_SESSION['qcm_form']['new_thème']))
-{
-    $id_thème = $thème_model->save_thème($_SESSION['qcm_form']['new_thème']);
-    if($id_thème != -1)
-    {
-        echo 'Le thème ' . ($thème_model->get_thème($id_thème))->get_description() . ' a été créé';
-    }
-}
+// if(isset($_SESSION['qcm_form']['new_thème']))
+// {
+//     $id_thème = $thème_model->save_thème($_SESSION['qcm_form']['new_thème']);
+//     if($id_thème != -1)
+//     {
+//         echo 'Le thème ' . ($thème_model->get_thème($id_thème))->get_description() . ' a été créé';
+//     }
+// }
 
 
 // Affichage des questions :

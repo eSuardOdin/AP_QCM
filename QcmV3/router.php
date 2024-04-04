@@ -54,6 +54,37 @@ if (isset($_REQUEST["page"]))
         case "Ajouter QCM":
             $_SESSION["page"] = "enseignant/gestion_qcm/ajouter_qcm.php";
             break;
+        // Etape 1 : Titre et thème dans la session
+        case "Valider et ajouter des questions":
+            $_SESSION["page"] = "enseignant/gestion_qcm/ajouter_qcm.php";
+            // Mise en forme de la session pour le formulaire qcm
+            $_SESSION['qcm_form']['titre'] = $_POST['libellé'];
+            if(isset($_POST['new_thème']))
+            {
+                $_SESSION['qcm_form']['thème']['titre'] = $_POST['new_thème'];
+                $_SESSION['qcm_form']['thème']['existe'] = false;
+            }
+            else
+            {
+                $_SESSION['qcm_form']['thème']['titre'] = $_POST['old_thème'];
+                $_SESSION['qcm_form']['thème']['existe'] = true; 
+            }
+            $_SESSION['qcm_form']['terminé'] = false;
+            $_SESSION['qcm_form']['questions'] = [];
+            break;
+
+        case "Ajouter une question":
+            $_SESSION["page"] = "enseignant/gestion_qcm/ajouter_qcm.php";
+            $arr = [];
+            $arr['question'] = $_POST['libellé_question'];
+            $arr['réponses'] = [];
+            // Ajoute true si la case correcte est cochée, false sinon.
+            foreach($_POST['reponse'] as $key => $r)
+            {
+                array_push($arr['réponses'], [$r, isset($_POST['correcte'][$key])]);
+            }
+            array_push($_SESSION['qcm_form']['questions'], $arr);
+            break;
         case "Créer QCM":
             $_SESSION['qcm_form'] = $_POST;
             $_SESSION["page"] = "enseignant/gestion_qcm/traitement_ajout.php";
