@@ -68,4 +68,25 @@ class PropositionModel
         }
         return $res;
     }
+
+
+    public function add_proposition($lib, $is_t, $id_q): int
+    {
+        // $statement = $this->db->prepare("INSERT INTO QCM(LibelléQCM, IdAuteur, IdThème) VALUES ('".$lib."',".$id_a.", ".$id_t.");");
+        $statement = $this->db->prepare("INSERT INTO Propositions(LibelléProposition, RésultatVraiFaux, IdQuestionAssociée) VALUES (:lib, :is_t, :id_q);");
+        $statement->bindParam(":lib", $lib, \PDO::PARAM_STR);
+        $statement->bindParam(":is_t", $is_t, \PDO::PARAM_BOOL);
+        $statement->bindParam(":id_q", $id_q, \PDO::PARAM_INT);
+
+        try
+        {
+            $statement->execute();
+            return (int)$this->db->lastInsertId();
+        }
+        catch(\PDOException $e)
+        {
+            $_SESSION['erreur_sql'] = $e->getMessage();
+            return -1;
+        }
+    }
 }

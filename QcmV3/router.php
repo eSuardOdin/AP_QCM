@@ -50,10 +50,21 @@ if (isset($_REQUEST["page"]))
                 $_SESSION["page"] = "enseignant/gestion_qcm/confirmation_supprimer_qcm.php";
             }
             break;
-        // Ajouter
+
+        // Ajouter un QCM
         case "Ajouter QCM":
             $_SESSION["page"] = "enseignant/gestion_qcm/ajouter_qcm.php";
             break;
+
+        // Annuler la création
+        case "Annuler la création":
+            if(isset($_SESSION['qcm_form']))
+            {
+                unset($_SESSION['qcm_form']);
+            }
+            $_SESSION["page"] = "enseignant/menu.php";
+            break;
+
         // Etape 1 : Titre et thème dans la session
         case "Valider et ajouter des questions":
             $_SESSION["page"] = "enseignant/gestion_qcm/ajouter_qcm.php";
@@ -73,17 +84,48 @@ if (isset($_REQUEST["page"]))
             $_SESSION['qcm_form']['questions'] = [];
             break;
 
+            
+        case "Valider le QCM":
         case "Ajouter une question":
+            if($_REQUEST["page"] == "Valider le QCM")
+            {
+                $_SESSION['qcm_form']['terminé'] = true;
+            }
+            $_SESSION['qcm_form']['erreur'] = null;
             $_SESSION["page"] = "enseignant/gestion_qcm/ajouter_qcm.php";
+            // Preset de la question à ajouter à la session
             $arr = [];
             $arr['question'] = $_POST['libellé_question'];
             $arr['réponses'] = [];
-            // Ajoute true si la case correcte est cochée, false sinon.
+            // Check qu'au moins une reponse est correcte
+            $valid = false;
             foreach($_POST['reponse'] as $key => $r)
             {
-                array_push($arr['réponses'], [$r, isset($_POST['correcte'][$key])]);
+                $valid = isset($_POST['correcte'][$key]);
+                if($valid)
+                {
+                    break;
+                }
             }
-            array_push($_SESSION['qcm_form']['questions'], $arr);
+            if(!$valid)
+            {
+                $_SESSION['qcm_form']['erreur'] = 'La question doit contenir au moins une bonne proposition.';
+            }
+            // Check qu'on a au moins deux propositions
+            $valid = (count($_POST['reponse']) > 1);
+            if(!$valid)
+            {
+                $_SESSION['qcm_form']['erreur'] = 'La question doit contenir au moins deux propositions de réponse.';
+            }
+            else
+            {
+                // Ajoute true si la case correcte est cochée, false sinon.
+                foreach($_POST['reponse'] as $key => $r)
+                {
+                    array_push($arr['réponses'], [$r, isset($_POST['correcte'][$key])]);
+                }
+                array_push($_SESSION['qcm_form']['questions'], $arr);
+            }
             break;
         case "Créer QCM":
             $_SESSION['qcm_form'] = $_POST;

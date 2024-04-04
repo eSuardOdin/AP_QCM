@@ -2,6 +2,16 @@
 <body>
 <?php
 session_start();
+
+use Qcm\Classes\Qcm;
+include_once("Classes/Qcm.php");
+use Qcm\Classes\Question;
+include_once("Classes/Question.php");
+use Qcm\Classes\Proposition;
+include_once("Classes/Proposition.php");
+use Qcm\Classes\Thème;
+include_once("Classes/Thème.php");
+
 use Qcm\Models\QcmModel;
 include_once("Models/QcmModel.php");
 use Qcm\Models\QuestionModel;
@@ -14,12 +24,57 @@ include_once("Models/ThèmeModel.php");
 // Traitement du qcm ajouté (db etc)
 if(isset($_SESSION['qcm_form']['terminé']) && $_SESSION['qcm_form']['terminé'])
 {
+    // Instance des models
+    $qcm_model = new QcmModel();
+    $question_model = new QuestionModel();
+    $prop_model = new PropositionModel();
+    $thème_model = new ThèmeModel();
 
+
+    $id_thème = -1;
+    // Si nouveau Thème, ajout du thème à la db
+    if(!$_SESSION['qcm_form']['thème']['existe'])
+    {
+        $id_thème = $thème_model->save_thème($_SESSION['qcm_form']['thème']['titre']);
+    }
+    else
+    {
+        $id_thème = (int)$_SESSION['qcm_form']['thème']['titre'];
+    }
+
+    // Si thème en erreur
+    if($id_thème == -1)
+    {
+        echo '<p>Erreur, thème inconnu</p>';
+    }
+    else
+    {
+        $thème = $thème_model->get_thème($id_thème);
+        // Ajout du qcm et get son ID
+        $qcm_id = $qcm_model->add_qcm($_SESSION['qcm_form']['titre'], (int)$_SESSION['user']['IdUtilisateur'], $id_thème);
+
+        // Ajout des questions
+        foreach($_SESSION['qcm_form']['questions'] as $q)
+        {
+            $id_question = $question_model->add_question($q['question'], $qcm_id);
+            foreach ($q['réponses'] as $r)
+            {
+                $prop_model->add_proposition($r[0], $r[1], $id_question);
+            }
+        }
+    }
+    
+    echo 'Je n\'ai pas du tout assez travaillé la validation mais on va dire que ce QCM est bien enregistré';
+    $_SESSION['qcm_form'] = null;
 }
+
+
+
+
 // Traitement d'une question
 else if(isset($_SESSION['qcm_form']['terminé']) && !$_SESSION['qcm_form']['terminé'])
 {
-    echo '
+    echo $_SESSION['qcm_form']['erreur'] . '
     <form name="question_form" method="post" action="router.php">
     <label for="libellé_question">Question : </label>
     <input type="text" name="libellé_question" minlength="8" maxlength="256" required/>
@@ -28,7 +83,7 @@ else if(isset($_SESSION['qcm_form']['terminé']) && !$_SESSION['qcm_form']['term
         <div>
             <p>Proposition n°1</p>
             <input type="text" name="reponse[]" required placeholde="Réponse"/>
-            <input type="checkbox" name=correcte[0] value="1"/> -> Réponse correcte
+            Réponse correcte: <input type="checkbox" name=correcte[0] value="1"/>
         </div>
     </div>
     <button type="button" id="add_rep">Ajouter réponse</button>
@@ -37,7 +92,11 @@ else if(isset($_SESSION['qcm_form']['terminé']) && !$_SESSION['qcm_form']['term
 
     <input type="submit" name="page" value="Ajouter une question"/>
     <input type="submit" name="page" value="Valider le QCM"/>
+    </form>
+
+    <form method="post" action="router.php">
     <input type="submit" name="page" value="Annuler la création"/>
+    </form>
     ';
 }
 // Traitement du titre et thème du qcm
@@ -67,7 +126,11 @@ else
 
     echo '
         <input type="submit" name="page" value="Valider et ajouter des questions"/>
+        </form>
+        
+        <form method="post" action="router.php">
         <input type="submit" name="page" value="Annuler la création"/>
+        </form>
     ';
         
 }
@@ -86,9 +149,13 @@ document.addEventListener("DOMContentLoaded", function() {
     {
         var repContainer = document.getElementById('reponses');
         var newRep = document.createElement('div');
-        newRep.innerHTML = '<p>Proposition n°' + (compteurReponses+1) + '</p><input type="text" name="reponse[]" required placeholde="Réponse"/><input type="checkbox" name=correcte[' + compteurReponses + '] value="1"/> -> Réponse correcte';
+        newRep.innerHTML = '<p>Proposition n°' + (compteurReponses+1) + '</p><input type="text" name="reponse[]" required placeholde="Réponse"/>Réponse correcte: <input type="checkbox" name=correcte[' + compteurReponses + '] value="1"/>';
         repContainer.appendChild(newRep);
         ++compteurReponses;
+        if(compteurReponses == 5)
+        {
+            (document.getElementById('add_rep')).setAttribute('disabled', 'disabled');
+        }
     }
     // Switch choix / création de thème
     function switchThèmes()

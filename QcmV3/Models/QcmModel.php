@@ -51,4 +51,27 @@ class QcmModel
         $statement->execute();
         
     }
+
+
+    public function add_qcm($lib, $id_a, $id_t): int
+    {
+        // $statement = $this->db->prepare("INSERT INTO QCM(LibelléQCM, IdAuteur, IdThème) VALUES ('".$lib."',".$id_a.", ".$id_t.");");
+        $statement = $this->db->prepare("INSERT INTO QCM(LibelléQCM, IdAuteur, IdThème) VALUES (:lib, :id_a, :id_t);");
+        $statement->bindParam(":lib", $lib, \PDO::PARAM_STR);
+        $statement->bindParam(":id_a", $id_a, \PDO::PARAM_INT);
+        $statement->bindParam(":id_t", $id_t, \PDO::PARAM_INT);
+
+
+        // $_SESSION['test'] = $statement;
+        try
+        {
+            $statement->execute();
+            return (int)$this->db->lastInsertId();
+        }
+        catch(\PDOException $e)
+        {
+            $_SESSION['erreur_sql'] = $e->getMessage();
+            return -1;
+        }
+    }
 }

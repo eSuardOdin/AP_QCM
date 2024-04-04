@@ -49,4 +49,23 @@ class QuestionModel
         }
         return $res;
     }
+
+    public function add_question($lib, $id_q): int
+    {
+        // $statement = $this->db->prepare("INSERT INTO QCM(LibelléQCM, IdAuteur, IdThème) VALUES ('".$lib."',".$id_a.", ".$id_t.");");
+        $statement = $this->db->prepare("INSERT INTO Questions(LibelléQuestion, IdQCMAssocié) VALUES (:lib, :id_q);");
+        $statement->bindParam(":lib", $lib, \PDO::PARAM_STR);
+        $statement->bindParam(":id_q", $id_q, \PDO::PARAM_INT);
+
+        try
+        {
+            $statement->execute();
+            return (int)$this->db->lastInsertId();
+        }
+        catch(\PDOException $e)
+        {
+            $_SESSION['erreur_sql'] = $e->getMessage();
+            return -1;
+        }
+    }
 }
