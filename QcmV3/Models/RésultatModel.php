@@ -106,7 +106,7 @@ class RésultatModel
 
 
     /**
-     * Get le résultat d'un QCM associé à un élève
+     * Get l'id du résultat d'un QCM associé à un élève
      */
     public function get_qcm_élève_résultat(int $qcm, int $élève): ?int
     {

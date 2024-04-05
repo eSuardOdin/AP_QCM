@@ -22,29 +22,47 @@ class RéponseModel
     {
         $statement = $this->db->prepare("SELECT * FROM Réponses WHERE IdRésultat = :id;");
         $statement->bindParam(":id", $id, \PDO::PARAM_INT);
-        $statement->execute();
-
-        $res = [];
-        $rows = $statement->fetch(\PDO::FETCH_ASSOC);
-
-        if($rows == null) return null;
-
-        foreach($rows as $row)
+        
+        try
         {
-            array_push(
-                $res, 
-                new Réponse($row['IdRésultat'], $row['IdProposition'])
-            );
+            $statement->execute();
+    
+            $res = [];
+            $rows = $statement->fetchALL(\PDO::FETCH_ASSOC);
+    
+            // Débug
+            error_log("*******************************************");
+            
+            if($rows == null) return null;
+    
+            foreach($rows as $row)
+            {
+                error_log("IdRésultat : " . $id . " | IdProposition : " . $row['IdProposition'],0);
+                array_push(
+                    $res, 
+                    new Réponse($id, $row['IdProposition'])
+                );
+            }
+            error_log("*******************************************");
+            
+            return $res;
         }
+        catch(\PDOException $e)
+        {
+            error_log("*******************************************");
+            error_log($e->getMessage(),0);
+            error_log("*******************************************");
 
-        return $res;
+            // $_SESSION['erreur_sql'] = $e->getMessage();
+            return null;
+        }
     }
 
-    public function save_réponse(Réponse $r)
+    public function save_réponse($id_r, $id_p)
     {
-        $statement = $this->db->prepare("INSERT INTO Réponses(IdRésultat, IdProposition) VALUE (:id_r, id_p);");
-        $statement->bindValue(":id_r", $r->get_id_résultat(), \PDO::PARAM_INT);
-        $statement->bindValue(":id_p", $r->get_id_proposition(), \PDO::PARAM_INT);
+        $statement = $this->db->prepare("INSERT INTO Réponses(IdRésultat, IdProposition) VALUE (:id_r, :id_p);");
+        $statement->bindValue(":id_r", $id_r, \PDO::PARAM_INT);
+        $statement->bindValue(":id_p", $id_p, \PDO::PARAM_INT);
 
         try
         {
@@ -52,7 +70,7 @@ class RéponseModel
         }
         catch(\PDOException $e)
         {
-            $_SESSION['erreur_sql']  = $statement->errorInfo()[2];
+            $_SESSION['erreur_sql']  = $e->getMessage();
             return -1;
         }
 

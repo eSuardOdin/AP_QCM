@@ -74,4 +74,5 @@ class QcmModel
             return -1;
         }
     }
+
 }

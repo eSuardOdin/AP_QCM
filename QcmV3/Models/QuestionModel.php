@@ -68,4 +68,14 @@ class QuestionModel
             return -1;
         }
     }
+
+
+    public function count_qcm_questions($id_q)
+    {
+        $statement = $this->db->prepare("SELECT COUNT(*) FROM Questions WHERE IdQCMAssocié = :id_q;");
+        $statement->bindParam(":id_q", $id_q, \PDO::PARAM_INT);
+        $statement->execute();
+
+        return $statement->fetch()[0];
+    }
 }

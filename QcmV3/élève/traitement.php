@@ -23,7 +23,7 @@ $question_model = new QuestionModel();
 $questions = $question_model->get_qcm_questions($resultat->get_id_qcm());
 $proposition_model = new PropositionModel();
 // Calcul des points par question en fonction du nb de questions
-$points = 100 / count($questions);
+$points = 20 / count($questions);
 
 // Check les questions avec réponses
 $questions_faites = [];
@@ -34,8 +34,7 @@ foreach($_SESSION['qcm'] as $rep)
     // Ajouter les propositions dans la db
     foreach($rep['reponses'] as $r)
     {
-        $rep = new Réponse((int)$_SESSION['résultat'], (int)$r);
-        $reponse_model->save_réponse($rep);
+        $reponse_model->save_réponse((int)$_SESSION['résultat'], (int)$r);
     }
 }
 // On part de max points et dégressif sur erreur

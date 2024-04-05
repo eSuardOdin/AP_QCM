@@ -22,7 +22,7 @@ if (isset($_REQUEST["page"]))
 
         // -------------------------------------
         case "Résultats":
-            $_SESSION["page"] = "enseignant/affectation_qcm.php";
+            $_SESSION["page"] = "enseignant/résultats.php";
             break;
         
         // -------------------------------------

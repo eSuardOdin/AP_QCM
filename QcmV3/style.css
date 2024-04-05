@@ -10,6 +10,13 @@
     font-size: inherit;
 }
 
+.align
+{
+    display: flex;
+    justify-content: space-around;
+    font-weight: bold;
+}
+
 .inactive_btn
 {
     background-color: #000000;
