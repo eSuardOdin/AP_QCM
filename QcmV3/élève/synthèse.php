@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 use Qcm\Models\QcmModel;
 include_once("Models/QcmModel.php");
 use Qcm\Models\QuestionModel;
@@ -11,7 +13,6 @@ use Qcm\Models\RésultatModel;
 include_once("Models/RésultatModel.php");
 use Qcm\Models\RéponseModel;
 include_once("Models/RéponseModel.php");
-
 $reponse_model = new RéponseModel();
 $res_model = new RésultatModel();
 $qcm_model = new QcmModel();
@@ -39,6 +40,7 @@ echo '</div>';
 
 // Tableau question
 echo '
+<div class="align">
 <table>
     <tr>
         <th>Question N°</th>
@@ -53,26 +55,63 @@ $index_question = 1;
 foreach($questions as $q)
 {
     $points_question = 1;
+    $valide = "Oui";
+
     echo '<tr>';
     // - On affiche le n°
     echo '<td>' . $index_question . '</td>';
-    // Get toutes les réponses justes :
+    // Get toutes les réponses justes (foreach pour n'avoir que les ID)
     $reponses_justes = [];
     foreach($prop_model->get_question_propositions_justes($q->get_id_question()) as $p)
     {
-        array_push($reponses_justes, $p->get_id_proposition());
+        array_push($reponses_justes, $p->get_id_proposition());    
     }
+    
+    // Get les réponses du joueur sur la question (foreach pour n'avoir que les ID)
+    $reponses_joueur = [];
+    foreach($reponse_model->get_réponses_from_question($resultat->get_id_résultat(), $q->get_id_question()) as $r)
+    {
+        array_push($reponses_joueur, $r->get_id_proposition());    
+    }
+    
     // - On check si le joueur a répondu a la question, si non          "Validée: NON"
-    // - On check si une des réponses fournies par le joueur est fausse "Validée: NON"
-    // - Si non, si toutes les réponses justes sont fournies            "Validée: PARTIEL"
-    // - Si non                                                         "Validée: OUI"
+    if(count($reponses_joueur) == 0)
+    {
+        $points_question = 0;
+        $valide = "Non";
+    }
+    else
+    {
+        // - On check si une des réponses fournies par le joueur est fausse "Validée: NON"
+        foreach($reponses_joueur as $r)
+        {
+            if(!in_array($r, $reponses_justes))
+            {
+                $points_question = 0;
+                $valide = "Non";
 
+                break;
+            }
+        }
+    }
+    // - Si non, si toutes les réponses justes ne sont pas  fournies    "Validée: PARTIEL"
+    if($valide == "Oui" && count($reponses_joueur) != count($reponses_justes))
+    {
+        $valide = "Partiel";
+        $points_question = 1 * (count($reponses_joueur) / count($reponses_justes));
+    }
+    echo '<td>' . $valide . '</td>';
+    echo '<td>' . $points_question . '</td>';
     echo '</tr>';
     $index_question++;
 }
-echo '</table>';
+echo '</table></div>';
+
+// Note et pourcentage
+echo '
+<div class="align">
+    <table><tr><th>Note</th><td>'.($resultat->get_note() / 5).'/20</td></tr></table>
+    <table><tr><th>Réalisé</th><td>'.$resultat->get_note().'%</td></tr></table>';
 
 
-echo '<pre>';
-echo var_dump($reponses);
-echo '</pre>';
+echo '</div><form method="post" action="router.php"><input type="submit" name="page" value="Tableau de bord"/>';

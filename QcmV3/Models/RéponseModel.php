@@ -29,21 +29,16 @@ class RéponseModel
     
             $res = [];
             $rows = $statement->fetchALL(\PDO::FETCH_ASSOC);
-    
-            // Débug
-            error_log("*******************************************");
             
             if($rows == null) return null;
     
             foreach($rows as $row)
             {
-                error_log("IdRésultat : " . $id . " | IdProposition : " . $row['IdProposition'],0);
                 array_push(
                     $res, 
                     new Réponse($id, $row['IdProposition'])
                 );
             }
-            error_log("*******************************************");
             
             return $res;
         }
@@ -52,7 +47,41 @@ class RéponseModel
             error_log("*******************************************");
             error_log($e->getMessage(),0);
             error_log("*******************************************");
+            // $_SESSION['erreur_sql'] = $e->getMessage();
+            return null;
+        }
+    }
 
+    /**
+     * Get les réponses qu'un joueur a fourni pour UNE question d'un résultat
+     */
+    public function get_réponses_from_question(int $id_res, int $id_question): ?array
+    {
+        $statement = $this->db->prepare("SELECT Réponses.* FROM Réponses WHERE IdRésultat = :id_res AND IdProposition IN (SELECT IdProposition FROM Propositions WHERE IdQuestionAssociée = :id_q);");
+        $statement->bindParam(":id_res", $id_res, \PDO::PARAM_INT);
+        $statement->bindParam(":id_q", $id_question, \PDO::PARAM_INT);
+        
+        try
+        {
+            $statement->execute();
+            $res = [];
+            $rows = $statement->fetchALL(\PDO::FETCH_ASSOC);
+            if($rows == null) return null;
+            foreach($rows as $row)
+            {
+                array_push(
+                    $res, 
+                    new Réponse($id_res, $row['IdProposition'])
+                );
+            }
+            
+            return $res;
+        }
+        catch(\PDOException $e)
+        {
+            error_log("*******************************************");
+            error_log($e->getMessage(),0);
+            error_log("*******************************************");
             // $_SESSION['erreur_sql'] = $e->getMessage();
             return null;
         }

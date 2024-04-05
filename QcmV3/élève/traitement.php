@@ -23,7 +23,7 @@ $question_model = new QuestionModel();
 $questions = $question_model->get_qcm_questions($resultat->get_id_qcm());
 $proposition_model = new PropositionModel();
 // Calcul des points par question en fonction du nb de questions
-$points = 20 / count($questions);
+$points = 100 / count($questions);
 
 // Check les questions avec réponses
 $questions_faites = [];
