@@ -20,10 +20,10 @@ else {
 }
 
 
-echo'<br/><br/><hr/><h3>Débug</h3><hr/>';
-echo'<pre>';
-echo var_dump($_SESSION);
-echo'</pre>';
+// echo'<br/><br/><hr/><h3>Débug</h3><hr/>';
+// echo'<pre>';
+// echo var_dump($_SESSION);
+// echo'</pre>';
 
 $_SESSION['page'] = null;
 

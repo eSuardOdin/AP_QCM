@@ -47,7 +47,7 @@ else
             <td>' . $thème->get_description() . '</td>' .'
             <td>' . $qcm->get_libellé_qcm() . '</td>' .'
             <td style="color:' . $color . ';">' . $res->get_date_affectation() . '</td>' .'
-            <td>' . $res->get_note() . '</td>'
+            <td>' . round($res->get_note(),2) . '</td>' // Je round car il existe des valeurs au delà de 2 decimales dans la db mais je veux les garder
         ;
         // Si réalisé
         if($res->get_date_réalisation() != null)

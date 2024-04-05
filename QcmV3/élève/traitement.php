@@ -103,7 +103,7 @@ foreach($questions as $question)
 
 
 // Modif du résultat
-$resultat->set_note($note);
+$resultat->set_note(round($note, 2));
 // Set de la date de réalisation
 $resultat->set_date_réalisation(date("Y-m-d"));
 

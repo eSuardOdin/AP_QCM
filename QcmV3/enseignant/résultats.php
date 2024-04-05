@@ -30,13 +30,32 @@ else
     {
         // Get les résultats
         $res = $res_model->get_all_résultat_élève($e->get_id_utilisateur());
+        $moyenne = null;
+        $disponibles = 0;
+        $réalisés = 0;
+        $total_notes = 0;
+        foreach($res as $r)
+        {
+            if($r->get_date_réalisation() != null)
+            {
+                $réalisés++;
+                $total_notes += $r->get_note();
+            }
+            else {
+                $disponibles++;
+            }
+        }
+        $moyenne = ($réalisés != 0) ? round(($total_notes / $réalisés)/5, 2) . '/20' : null;
         echo '
         <tr>
             <td>'. $e->get_id_utilisateur() .'</td>
             <td>'. $e->get_nom() .'</td>
             <td>'. $e->get_prénom() .'</td>
-        ';
+            <td>' . $moyenne . '</td>
+            <td>' . $disponibles . '</td>
+            <td>' . $réalisés . '</td>
 
+        ';
 
         echo '
         </tr>
