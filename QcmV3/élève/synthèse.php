@@ -13,6 +13,8 @@ use Qcm\Models\RésultatModel;
 include_once("Models/RésultatModel.php");
 use Qcm\Models\RéponseModel;
 include_once("Models/RéponseModel.php");
+
+
 $reponse_model = new RéponseModel();
 $res_model = new RésultatModel();
 $qcm_model = new QcmModel();
